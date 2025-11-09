@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
-import { ReactComponent as HomeIcon } from "../../assets/icons/home.svg";
-import { ReactComponent as AnalysisIcon } from "../../assets/icons/analysis.svg";
-import { ReactComponent as ChallengeIcon } from "../../assets/icons/challenge.svg";
-import { ReactComponent as MyIcon } from "../../assets/icons/my-page.svg";
+import HomeIcon from "../../assets/icons/home.svg?react";
+import AnalysisIcon from "../../assets/icons/analysis.svg?react";
+import TrophyIcon from "../../assets/icons/trophy.svg?react";
+import MyIcon from "../../assets/icons/my-page.svg?react";
 import { ROUTES } from "../../router/routes";
 
 const Footer = () => {
@@ -23,7 +23,7 @@ const Footer = () => {
             </NavItem>
 
             <NavItem to={ROUTES.CHALLENGE_LIST} active={currentPath.startsWith("/challenge")}>
-                <ChallengeIcon />
+                <TrophyIcon />
                 <Label>챌린지</Label>
             </NavItem>
 
@@ -38,11 +38,13 @@ const Footer = () => {
 export default Footer;
 
 const Wrapper = styled.nav`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px 0;
-  background-color: ${({ theme }) => theme.colors.white};
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    background-color: ${({ theme }) => theme.colors.white};
 `;
 
 interface NavItemProps {
@@ -50,22 +52,19 @@ interface NavItemProps {
 }
 
 const NavItem = styled(Link) <NavItemProps>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
 
-  svg {
-    width: 24px;
-    height: 24px;
-    fill: ${({ theme, active }) =>
-        active ? theme.colors.primary[500] : theme.colors.secondary[900]};
-transition: fill 0.2s ease;
-  }
+    svg {
+        fill: ${({ theme, active }) =>
+        active ? theme.colors.primary[500] : theme.colors.textPrimary};
+    }
 `;
 
 const Label = styled.span`
-font - size: 12px;
-font - weight: 500;
+    font-size: 13px;
+    font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
