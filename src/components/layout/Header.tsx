@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../../router/routes";
-import { ReactComponent as BackIcon } from "../../assets/icons/back-arrow.svg";
+import BackIcon from "../../assets/icons/back-arrow.svg?react";
 
 interface HeaderProps {
     title?: String;
@@ -60,6 +60,10 @@ export default Header;
 
 const Wrapper = styled.header`
     display: flex;
+    height: 100%;
+    padding: 18px;
+    align-items: center;
+    background-color: white;
 `;
 
 const BackButton = styled.div``
