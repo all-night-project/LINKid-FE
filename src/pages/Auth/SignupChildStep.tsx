@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 import AccountIcon from "../../assets/icons/accounts.svg?react";
-import CheckIcon from "../../assets/icons/check_circle.svg?react";
+import CheckIcon from "../../assets/icons/filled_check.svg?react";
 import CounterIcon2 from "../../assets/icons/counter_2.svg?react";
 import MaleIcon from "../../assets/icons/male.svg?react";
 import FemaleIcon from "../../assets/icons/female.svg?react";
