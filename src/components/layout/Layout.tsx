@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
+import FloatingAnalysisButton from "../common/FloatingAnalysisButton";
 
 const Layout = () => {
   return (
@@ -17,6 +18,8 @@ const Layout = () => {
       <FooterWrapper>
         <Footer />
       </FooterWrapper>
+
+      <FloatingAnalysisButton />
     </Container>
   );
 };

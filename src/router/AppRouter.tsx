@@ -6,6 +6,7 @@ import SignupPage from "../pages/Auth/SignupPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
 import GuidePage from "../pages/Guide/GuidePage";
 import VideoUploadPage from "../pages/Video/VideoUploadPage";
+import AnalysisPage from "../pages/Analyze/AnalysisPage";
 
 export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
     {
@@ -21,6 +22,7 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
             { path: "/dashboard", element: <DashboardPage /> },
             { path: "/guide", element: <GuidePage /> },
             { path: "/upload", element: <VideoUploadPage /> },
+            { path: "/analysis", element: <AnalysisPage analysisId="analyzeId" /> },
         ],
     },
 ]);
