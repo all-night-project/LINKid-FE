@@ -3,7 +3,7 @@ import AboutServiceSection from "./componenets/AboutServiceSection";
 import VideoGuideSection from "./componenets/VideoGuideSection";
 import SecuritySection from "./componenets/SecuritySection";
 
-const DashboardPage = () => {
+const GuidePage = () => {
     return (
         <Wrapper>
             <AboutServiceSection />
@@ -13,7 +13,7 @@ const DashboardPage = () => {
     );
 };
 
-export default DashboardPage;
+export default GuidePage;
 
 const Wrapper = styled.div`
     display: flex;
