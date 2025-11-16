@@ -1,3 +1,7 @@
+## 해당 이슈 번호
+
+closed # 
+
 ## 🔀 Pull Request Title
 
 간결하고 명확한 제목 작성 (예: `feat: 로그인 기능 구현`)
