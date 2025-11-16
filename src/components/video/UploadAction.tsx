@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../router/routes";
-import Button from "../../../components/common/Button";
+import { ROUTES } from "../../router/routes";
+import Button from "../common/Button";
 
 interface UploadActionsProps {
     isVideoUploaded: boolean;

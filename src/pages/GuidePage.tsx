@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import AboutServiceSection from "./componenets/AboutServiceSection";
-import VideoGuideSection from "./componenets/VideoGuideSection";
-import SecuritySection from "./componenets/SecuritySection";
+import AboutServiceSection from "../components/guide/AboutServiceSection";
+import VideoGuideSection from "../components/guide/VideoGuideSection";
+import SecuritySection from "../components/guide/SecuritySection";
 
 const GuidePage = () => {
     return (

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import SectionCard from "../../../components/common/SectionCard";
+import SectionCard from "../common/SectionCard";
 import ChartIcon from "../../../assets/icons/chart.svg?react";
 
 const ReportSection = () => {

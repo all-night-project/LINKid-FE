@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import BookIcon from "../../../assets/icons/book.svg?react";
 import GuideSection from "./GuideSection";
-import AccordionItem from "../../../components/common/AccordionItem";
+import AccordionItem from "../common/AccordionItem";
 
 const AboutServiceSection = () => {
     const [openIndexes, setOpenIndexes] = useState<number[]>([]);

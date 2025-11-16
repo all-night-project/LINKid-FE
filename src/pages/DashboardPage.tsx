@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import UploadCard from "./components/UploadCard";
-import ReportSection from "./components/ReportSection";
-import ChallengeSection from "./components/ChallengeSection";
-import GuideCard from "./components/GuideCard";
+import UploadCard from "../components/dashboard/UploadCard";
+import ReportSection from "../components/dashboard/ReportSection";
+import ChallengeSection from "../components/dashboard/ChallengeSection";
+import GuideCard from "../components/dashboard/GuideCard";
 
 const DashboardPage = () => {
     return (

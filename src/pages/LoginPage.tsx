@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "../../components/common/Input";
-import Button from "../../components/common/Button";
-import { ROUTES } from "../../router/routes";
+import Input from "../components/common/Input";
+import Button from "../components/common/Button";
+import { ROUTES } from "../router/routes";
 
 const LoginButton = styled(Button)`
     width: 100%;

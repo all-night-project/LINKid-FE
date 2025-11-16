@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import SectionCard from "../../../components/common/SectionCard";
-import Button from "../../../components/common/Button";
+import SectionCard from "../common/SectionCard";
+import Button from "../common/Button";
 import QuestionIcon from "../../../assets/icons/question.svg?react";
 import FreePlayIcon from "../../../assets/icons/play.svg?react";
 import MealIcon from "../../../assets/icons/meal.svg?react";

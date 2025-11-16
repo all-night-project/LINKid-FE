@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import SectionCard from "../../../components/common/SectionCard";
+import SectionCard from "../common/SectionCard";
 import ErrorIcon from "../../../assets/icons/error.svg?react";
 import ClockIcon from "../../../assets/icons/clock.svg?react";
 import VolumeIcon from "../../../assets/icons/volume_up.svg?react";
