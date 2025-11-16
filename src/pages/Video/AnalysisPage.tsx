@@ -67,7 +67,7 @@ const Container = styled.div`
 `;
 
 const StatusText = styled.p`
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     margin-top: 20px;
 `

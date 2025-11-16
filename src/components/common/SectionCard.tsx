@@ -42,7 +42,7 @@ const IconWrapper = styled.div`
 `
 
 const Title = styled.p`
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.bold};
 `;
 

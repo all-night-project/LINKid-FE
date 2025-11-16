@@ -25,8 +25,8 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.label`
-    font-size: ${({ theme }) => theme.typography.sizes.md};
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textPrimary};
     margin-left: 9px;
 `
@@ -36,7 +36,7 @@ const StyledInput = styled.input<{ hasError: boolean }>`
     height: 45px;
     padding: 14px 16px;
     border-radius: ${({ theme }) => theme.radius.md};
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     border: 1px solid ${({ theme }) => theme.colors.primary[500]};
     color: ${({ theme }) => theme.colors.textPrimary};
     background-color: white;
@@ -54,6 +54,6 @@ const StyledInput = styled.input<{ hasError: boolean }>`
 `;
 
 const ErrorText = styled.span`
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     color: ${({ theme }) => theme.colors.primary[600]};
 `;

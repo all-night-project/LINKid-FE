@@ -81,7 +81,7 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled.h1`
-    font-size: 54px;
+    font-size: 5.4rem;
     margin-left: 13px;
 `;
 
@@ -108,7 +108,7 @@ const SignupText = styled.p`
     display: flex;
     justify-content: center;
     margin-top: 28px;
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.2rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 

@@ -60,7 +60,7 @@ const FloatingButton = styled.button<{ $status: "analyzing" | "done" }>`
     border-radius: 50%;
     border: none;
     cursor: pointer;
-    font-size: 28px;
+    font-size: 2.8rem;
 
     background-color: ${({ $status, theme }) =>
         $status === "analyzing"

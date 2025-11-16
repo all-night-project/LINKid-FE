@@ -178,8 +178,8 @@ const GenderWrapper = styled.div`
 `;
 
 const Label = styled.p`
-    font-size: ${({ theme }) => theme.typography.sizes.md};
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textPrimary};
     margin-left: 9px;
 `;
@@ -204,7 +204,7 @@ const GenderBox = styled.div<{ $selected: boolean }>`
 
     span {
         margin-top: 6px;
-        font-size: ${({ theme }) => theme.typography.sizes.md};
+        font-size: 1.8rem;
         color: ${({ theme }) => theme.colors.textSecondary};
     }
 
@@ -217,7 +217,7 @@ const GenderBox = styled.div<{ $selected: boolean }>`
 `;
 
 const ErrorText = styled.span`
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     color: ${({ theme }) => theme.colors.primary[600]};
 `;
 
@@ -231,7 +231,7 @@ const ButtonRow = styled.div`
         flex: 1;
         height: 55px;
         border-radius: ${({ theme }) => theme.radius.md};
-        font-size: 20px;
+        font-size: 2rem;
     }
 `;
 
@@ -239,7 +239,7 @@ const LoginText = styled.p`
     display: flex;
     justify-content: center;
     margin-top: 28px;
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 

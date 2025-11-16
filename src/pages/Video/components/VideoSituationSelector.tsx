@@ -51,7 +51,7 @@ const Wrapper = styled.div`
 `;
 
 const Subtitle = styled.p`
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 
@@ -71,8 +71,8 @@ const SituationButton = styled(Button) <{ $selected?: boolean }>`
     border-radius: ${({ theme }) => theme.typography.sizes.sm};
     background-color: white;
     border: 1px solid ${({ theme }) => theme.colors.primary[500]};
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 1.6rem;
+    font-weight: ${({ theme }) => theme.typography.weights.medium};
 
     transition: all 0.2s ease;
 

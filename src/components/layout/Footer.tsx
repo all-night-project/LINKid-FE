@@ -65,6 +65,6 @@ const NavItem = styled(Link) <NavItemProps>`
 `;
 
 const Label = styled.span`
-    font-size: 13px;
+    font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;

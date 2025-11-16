@@ -58,11 +58,11 @@ const TextWrapper = styled.div`
 const Title = styled.p`
     color: white;
     font-weight: ${({ theme }) => theme.typography.weights.bold};
-    font-size: 20px;
+    font-size: 2rem;
 `;
 
 const Description = styled.p`
     color: white;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
-    font-size: 16px;
+    font-size: 1.6rem;
 `;

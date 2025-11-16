@@ -80,11 +80,11 @@ const Title = styled.h1<{ $isMain?: boolean }>`
   ${({ $isMain, theme }) =>
         $isMain
             ? `
-        font-size: 32px;
+        font-size: 3.2rem;
         font-family: ${theme.typography.fontFamily};
       `
             : `
-        font-size: 22px;
+        font-size: 2.2rem;
         font-family: ${theme.typography.fontFamily};
       `}
 `;

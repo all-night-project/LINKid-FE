@@ -94,11 +94,11 @@ const TextGroup = styled.div`
 `;
 
 const ItemTitle = styled.p`
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
 `;
 
 const ItemDesc = styled.p`
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
 `;

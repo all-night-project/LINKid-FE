@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import BookIcon from "../../../assets/icons/book.svg?react";
-import ChevronDown from "../../../assets/icons/chevron-down.svg?react";
-import ChevronUp from "../../../assets/icons/chevron-up.svg?react";
 import GuideSection from "./GuideSection";
+import AccordionItem from "../../../components/common/AccordionItem";
 
 const AboutServiceSection = () => {
     const [openIndexes, setOpenIndexes] = useState<number[]>([]);
@@ -52,24 +51,24 @@ const AboutServiceSection = () => {
                 저희는 ‘좋은 부모’, ‘나쁜 부모'를 평가하거나 점수를 매기지 않습니다. 대신,아동 심리 전문가들이 사용하는 객관적인 기준을 바탕으로 부모님의 상호작용 패턴을 분석하여 성장을 돕는 거울이 되어 드립니다.
             </Text>
 
-            {qaList.map((qa, i) => {
-                const isOpen = openIndexes.includes(i);
-                return (
-                    <Accordion key={i}>
-                        <Question onClick={() => toggle(i)} $open={isOpen}>
-                            {qa.question}
-                            {isOpen ? (
-                                <ChevronUp />
-                            ) : (
-                                <ChevronDown />
-                            )}
-                        </Question>
-                        <AnswerWrapper $open={isOpen}>
-                            <Answer dangerouslySetInnerHTML={{ __html: qa.answer }} />
-                        </AnswerWrapper>
-                    </Accordion>
-                );
-            })}
+            {qaList.map((qa, i) => (
+                <AccordionItem
+                    key={i}
+                    variant="guide"
+                    question={qa.question}
+                    isOpen={openIndexes.includes(i)}
+                    onToggle={() => toggle(i)}
+                >
+                    <div
+                        style={{
+                            color: "white",
+                            fontSize: "15px",
+                            lineHeight: "23px",
+                        }}
+                        dangerouslySetInnerHTML={{ __html: qa.answer }}
+                    />
+                </AccordionItem>
+            ))}
         </GuideSection>
     );
 };
@@ -80,55 +79,7 @@ const Text = styled.div`
     background: rgba(234, 234, 246, 0.3);
     padding: 15px;
     color: white;
-    font-size: 14px;
+    font-size: 1.4rem;
     border-radius: 10px;
     margin-top: 10px;
-`
-
-const Accordion = styled.div`
-    background: rgba(234, 234, 246, 0.3);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    margin-top: 15px;
-`;
-
-const Question = styled.button<{ $open: boolean }>`
-    width: 100%;
-    padding: 14px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    font-weight: ${({ theme }) => theme.typography.weights.medium};
-    font-size: 16px;
-    cursor: pointer;
-    text-align: left;
-
-    ${({ $open }) =>
-        $open &&
-        `
-        color: #fff;
-        `}
-`;
-
-const AnswerWrapper = styled.div<{ $open: boolean }>`
-    max-height: ${({ $open }) => ($open ? "auto" : "0px")};
-    opacity: ${({ $open }) => ($open ? "1" : "0")};
-    transition: all 0.3s ease;
-    overflow: hidden;
-    padding: ${({ $open }) => ($open ? "0 16px 14px 16px" : "0 16px")};
-`;
-
-const Answer = styled.p`
-    color: white;
-    font-size: 14px;
-    line-height: 23px;
-    ul {
-        list-style-type: disc;
-        padding-left: 15px;
-    }
-    li {
-        list-style-position: outside;
-    }
 `;

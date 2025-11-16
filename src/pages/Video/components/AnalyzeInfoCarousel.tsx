@@ -101,7 +101,7 @@ const IconWrapper = styled.div`
 `
 
 const Title = styled.p`
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     text-align: center;
     margin-top: 42px;
@@ -109,7 +109,7 @@ const Title = styled.p`
 
 const Desc = styled.p`
     width: calc(100% - 30px);
-    font-size: 17px;
+    font-size: 1.7rem;
     line-height: 1.4;
     text-align: center;
     margin-top: 40px;

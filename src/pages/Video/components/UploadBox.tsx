@@ -135,14 +135,14 @@ const ProgressHeader = styled.div`
 `;
 
 const ProgressText = styled.span`
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 1.6rem;
+    font-weight: ${({ theme }) => theme.typography.weights.medium};
     color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const ProgressPercent = styled.span`
-    font-size: 19px;
-    font-weight: 600;
+    font-size: 1.9rem;
+    font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.primary[500]};
 `;
 
@@ -163,7 +163,7 @@ const ProgressBar = styled.div<{ $progress: number }>`
 `;
 
 const ProgressFooter = styled.span`
-    font-size: 14px;
+    font-size: 1.4rem;
     color: ${({ theme }) => theme.colors.textPrimary};
     text-align: right;
     padding-right: 10px;

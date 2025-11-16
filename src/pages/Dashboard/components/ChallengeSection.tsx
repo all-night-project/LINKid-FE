@@ -51,8 +51,8 @@ const Wrapper = styled.div`
 
 const SectionDescription = styled.div`
     color: ${({ theme }) => theme.colors.primary[600]};
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 1.6rem;
+    font-weight: ${({ theme }) => theme.typography.weights.regular};
 `;
 
 const SubHeader = styled.div`
@@ -70,13 +70,13 @@ const SubCard = styled.div`
 `;
 
 const SubTitle = styled.p`
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: ${({ theme }) => theme.typography.weights.semibold};
 `;
 
 const Description = styled.p`
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 1.3rem;
+    font-weight: ${({ theme }) => theme.typography.weights.regular};
 `;
 
 

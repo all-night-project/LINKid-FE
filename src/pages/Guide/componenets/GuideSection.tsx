@@ -48,17 +48,17 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.p<{ $fontColor?: string }>`
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.bold};
     color: ${({ $fontColor }) => $fontColor || "#5A4A42"};
 `;
 
 const Subtitle = styled.p<{ $fontColor?: string }>`
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
     color: ${({ $fontColor }) => $fontColor || "#5A4A42"};
 `;
 
 const Content = styled.div`
-    font-size: 14px;
+    font-size: 1.4rem;
 `

@@ -57,7 +57,7 @@ const Circle = styled.div`
     border-radius: 50%;
     background-color: ${({ theme }) => theme.colors.secondary[500]};
     color: white;
-    font-size: 14px;
+    font-size: 1.,4rem;
     font-weight: ${({ theme }) => theme.typography.weights.extrabold};
     flex-shrink: 0;
 `;
@@ -69,13 +69,13 @@ const TextGroup = styled.div`
 `;
 
 const ItemTitle = styled.p`
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
     color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
 const ItemDesc = styled.p`
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
     color: ${({ theme }) => theme.colors.textSecondary};
 `

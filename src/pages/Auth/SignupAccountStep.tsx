@@ -134,7 +134,7 @@ const StepIndicator = styled.div`
 `;
 
 const Title = styled.p`
-    font-size: 22px;
+    font-size: 2.2rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textPrimary};
 `;
@@ -153,7 +153,7 @@ const StepLine = styled.div`
 `;
 
 const StepLabel = styled.span`
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textSecondary};
     margin-left: 5px;
@@ -170,7 +170,7 @@ const LoginText = styled.p`
     display: flex;
     justify-content: center;
     margin-top: 28px;
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 
