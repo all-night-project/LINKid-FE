@@ -92,7 +92,10 @@ const ReportStepPage = () => {
                     >다음으로</Button>
                 )}
                 {stepNumber === 5 && (
-                    <Button variant="primary">모든 분석 한눈에 보기</Button>
+                    <Button
+                        variant="primary"
+                        onClick={() => navigate(`/report/${reportId}`)}
+                    >모든 분석 한눈에 보기</Button>
                 )}
             </ButtonWrapper>
         </Container>
