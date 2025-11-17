@@ -1,17 +1,31 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import type { ReactNode } from "react";
 
 interface SectionCardProps {
     icon?: ReactNode;
     title: string;
+    alignment?: "top" | "left";
+    iconBg?: string;
+    size?: number;
     children: ReactNode;
 }
 
-const SectionCard = ({ icon, title, children }: SectionCardProps) => {
+const SectionCard = ({
+    icon,
+    title,
+    alignment = "top",
+    iconBg = "#FAEFEF",
+    size = 36,
+    children
+}: SectionCardProps) => {
     return (
         <Wrapper>
-            <Header>
-                {icon && <IconWrapper>{icon}</IconWrapper>}
+            <Header $alignment={alignment}>
+                {icon && (
+                    <IconWrapper $iconBg={iconBg} $size={size}>
+                        {icon}
+                    </IconWrapper>
+                )}
                 <Title>{title}</Title>
             </Header>
             <Content>{children}</Content>
@@ -20,6 +34,17 @@ const SectionCard = ({ icon, title, children }: SectionCardProps) => {
 };
 
 export default SectionCard;
+
+const alignmentStyles = {
+    top: css`
+        flex-direction: column;
+        align-items: center;
+        gap: 11px;
+    `,
+    left: css`
+        flex-direction: row;
+    `
+}
 
 const Wrapper = styled.div`
     display: flex;
@@ -31,15 +56,25 @@ const Wrapper = styled.div`
     gap: 8px;
 `;
 
-const Header = styled.div`
+const Header = styled.div<{ $alignment: "top" | "left" }>`
     display: flex;
     gap: 5px;
+    ${({ $alignment }) => alignmentStyles[$alignment]};
 `;
 
-const IconWrapper = styled.div`
+const IconWrapper = styled.div<{ $iconBg: string; $size: number }>`
     display: flex;
     align-items: center;
-`
+    justify-content: center;
+
+    width: ${({ $size }) => `${$size}px`};
+    height: ${({ $size }) => `${$size}px`};
+    border-radius: 50%;
+    background: ${({ $iconBg }) => $iconBg};
+
+    flex-shrink: 0;
+`;
+
 
 const Title = styled.p`
     font-size: 2rem;
@@ -51,4 +86,4 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-`
+`;
