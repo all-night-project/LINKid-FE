@@ -24,7 +24,10 @@ const VideoSituationSelector = ({ selectedSituation, setSelectedSituation }: Vid
         <Wrapper>
             <SectionCard
                 icon={<QuestionIcon />}
+                iconBg="transparent"
                 title="영상 상황을 알려주세요"
+                alignment="left"
+                size={22}
             >
                 <Subtitle>어떤 상황의 영상인가요?</Subtitle>
                 <ButtonGroup>

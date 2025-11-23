@@ -33,7 +33,10 @@ const UploadChecklist = () => {
         <Wrapper>
             <SectionCard
                 icon={<ErrorIcon />}
+                iconBg="transparent"
                 title="업로드 전 확인사항"
+                alignment="left"
+                size={22}
             >
                 <List>
                     {list.map((item, idx) => (

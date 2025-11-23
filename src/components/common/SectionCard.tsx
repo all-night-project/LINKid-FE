@@ -20,9 +20,9 @@ const SectionCard = ({
 }: SectionCardProps) => {
     return (
         <Wrapper>
-            <Header $alignment={alignment}>
+            <Header alignment={alignment}>
                 {icon && (
-                    <IconWrapper $iconBg={iconBg} $size={size}>
+                    <IconWrapper iconBg={iconBg} size={size}>
                         {icon}
                     </IconWrapper>
                 )}
@@ -58,24 +58,24 @@ const Wrapper = styled.div`
     gap: 8px;
 `;
 
-const Header = styled.div<{ $alignment: "top" | "left" }>`
+const Header = styled.div<{ alignment: "top" | "left" }>`
     display: flex;
-    ${({ $alignment }) => alignmentStyles[$alignment]};
+    ${({ alignment }) => alignmentStyles[alignment]};
 `;
 
-const IconWrapper = styled.div<{ $iconBg: string; $size: number }>`
+const IconWrapper = styled.div<{ iconBg: string; size: number }>`
     display: flex;
     align-items: center;
     justify-content: center;
 
-    width: ${({ $size }) => `${$size}px`};
-    height: ${({ $size }) => `${$size}px`};
+    width: ${({ size }) => `${size + 10}px`};
+    height: ${({ size }) => `${size + 10}px`};
     border-radius: 50%;
-    background: ${({ $iconBg }) => $iconBg};
+    background: ${({ iconBg }) => iconBg};
 
     > svg {
-        width: ${({ $size }) => `${$size - 15}px`};
-        height: ${({ $size }) => `${$size - 15}px`};
+        width: ${({ size }) => `${size}px`};
+        height: ${({ size }) => `${size}px`};
     }
 
     flex-shrink: 0;
