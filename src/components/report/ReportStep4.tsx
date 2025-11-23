@@ -17,11 +17,12 @@ interface CoachingProps {
             period: string;
             preview: [];
         };
+        reason: string;
     };
 }
 
 const ReportStep4 = ({ coaching }: CoachingProps) => {
-    const { summary, generatedChallenge } = coaching;
+    const { summary, generatedChallenge, reason } = coaching;
     const [open, setOpen] = useState(false);
     const toggle = () => setOpen((prev) => !prev);
 
@@ -76,25 +77,10 @@ const ReportStep4 = ({ coaching }: CoachingProps) => {
                     </AcceptButton>
                 </ChallengeBox>
 
-                <TipBox>
-                    <TipTitle>챌린지 공략집</TipTitle>
-                    <TipCard>
-                        <Question>
-                            Q. ‘긍정적 기회’는 언제 발생하나요?
-                        </Question>
-                        <Answer>
-                            A. 아이가 자신의 행동을 공유하거나 친사회적 행동을 할 때(예: “동생 도와줬어”) 발생합니다.
-                        </Answer>
-                    </TipCard>
-                    <TipCard>
-                        <Question>
-                            Q. 어떻게 반응해야 하나요?
-                        </Question>
-                        <Answer>
-                            A. 반영적 듣기(예: “그렇구나 그렇구나”) 또는 구체적 칭찬(예: “동생 챙겨줘서 멋지다”)으로 즉시 반응해 주세요.
-                        </Answer>
-                    </TipCard>
-                </TipBox>
+                <ReasonBox>
+                    <ReasonTitle>이번 챌린지가 제안된 이유</ReasonTitle>
+                    <ReasonText>{reason}</ReasonText>
+                </ReasonBox>
             </SectionCard>
         </Wrapper>
     );
@@ -204,36 +190,24 @@ const AcceptButton = styled(Button)`
     }
 `
 
-const TipBox = styled.div`
-    display: flex;
-    flex-direction: column;
+const ReasonBox = styled.div`
     width: 100%;
-    margin-top: 20px;
-    gap: 8px;
-`;
-
-const TipTitle = styled.h3`
-    font-size: 1.6rem;
-    font-weight: ${({ theme }) => theme.typography.weights.medium};
-`
-
-const TipCard = styled.div`
+    background: ${({ theme }) => theme.colors.secondary[800]};
     display: flex;
     flex-direction: column;
+    padding: 13px 18px;
     border-radius: 10px;
-    border: 2px solid #f6f6f6;
-    padding: 17px 18px;
-    gap: 7px;
+    gap: 5px;
+    margin-top: 5px;
 `;
 
-const Question = styled.p`
+const ReasonTitle = styled.h3`
     font-size: 1.5rem;
-    font-weight: ${({ theme }) => theme.typography.weights.medium};
+    font-weight: ${({ theme }) => theme.typography.weights.semibold};
 `;
 
-const Answer = styled.p`
+const ReasonText = styled.p`
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
-    color: ${({ theme }) => theme.colors.textSecondary};
     line-height: 1.3;
 `;
