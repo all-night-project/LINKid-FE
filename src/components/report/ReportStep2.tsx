@@ -11,12 +11,14 @@ interface KeyMomentsProps {
             diagnosis: string;
             conversation: string[];
             aiComment: string;
+            reference: string;
         };
         growthOpportunity: {
             diagnosis: string;
             conversation: string[];
             aiComment: string;
             suggestion: string;
+            reference: string;
         };
         detailedPatterns: {
             patternName: string;
@@ -46,7 +48,7 @@ const ReportStep2 = ({ keyMoments }: KeyMomentsProps) => {
                         <BestIcon><StarIcon /></BestIcon>
                         <HeaderRight>
                             <Title>이번 대화의 'Best' 순간</Title>
-                            <BestDesc>{bestMoment.diagnosis}</BestDesc>
+                            <BestDesc>{bestMoment.diagnosis} 패턴 발견</BestDesc>
                         </HeaderRight>
                     </Header>
 
@@ -57,7 +59,7 @@ const ReportStep2 = ({ keyMoments }: KeyMomentsProps) => {
                     </ChatBubble>
 
                     <AIComment>{bestMoment.aiComment}</AIComment>
-                    <Reference>참고: 오은영 박사 연구</Reference>
+                    <Reference>참고: {bestMoment.reference}</Reference>
                 </Moment>
 
                 <Moment>
@@ -65,7 +67,7 @@ const ReportStep2 = ({ keyMoments }: KeyMomentsProps) => {
                         <GrowthIcon><BulbIcon /></GrowthIcon>
                         <HeaderRight>
                             <Title>이번 대화의 '성장 기회'</Title>
-                            <GrowthDesc>{growthOpportunity.diagnosis}</GrowthDesc>
+                            <GrowthDesc>{growthOpportunity.diagnosis} 패턴 발견</GrowthDesc>
                         </HeaderRight>
                     </Header>
 
@@ -78,21 +80,22 @@ const ReportStep2 = ({ keyMoments }: KeyMomentsProps) => {
                     <AIComment>{growthOpportunity.aiComment}</AIComment>
 
                     <Suggestion>{`대안 예시:\n${growthOpportunity.suggestion}`}</Suggestion>
+                    <Reference>참고: {growthOpportunity.reference}</Reference>
                 </Moment>
 
                 {/* 아코디언 — 패턴 상세 분석 */}
                 <AccordionItem
                     variant="pattern"
-                    question="패턴별 상세 분석"
+                    question="안티 패턴 더보기"
                     isOpen={open}
                     onToggle={toggle}
                 >
                     <PatternContainer>
                         <PatternTitle>
-                            안티 패턴 1: “{detailedPatterns.patternName}” ({detailedPatterns.count}회)
+                            “{detailedPatterns.patternName}” ({detailedPatterns.count}회)
                         </PatternTitle>
 
-                        <SmallText>발생 시점 1: {detailedPatterns.startTime}</SmallText>
+                        <SmallText>발생 시점: {detailedPatterns.startTime}</SmallText>
 
                         <ChatBubble>
                             <ChatRow>
@@ -211,11 +214,11 @@ const Chat = styled.span`
 const AIComment = styled.p`
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
-    margin-bottom: 8px;
 `;
 
 const Reference = styled.p`
     font-size: 1.1rem;
+    margin-top: 8px;
     color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
@@ -250,4 +253,5 @@ const Suggestion = styled.p`
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
     line-height: 1.8;
+    margin-top: 8px;
 `

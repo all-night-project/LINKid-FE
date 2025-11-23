@@ -43,6 +43,8 @@ const alignmentStyles = {
     `,
     left: css`
         flex-direction: row;
+        align-items: center;
+        gap: 4px;
     `
 }
 
@@ -58,7 +60,6 @@ const Wrapper = styled.div`
 
 const Header = styled.div<{ $alignment: "top" | "left" }>`
     display: flex;
-    gap: 5px;
     ${({ $alignment }) => alignmentStyles[$alignment]};
 `;
 
@@ -72,9 +73,13 @@ const IconWrapper = styled.div<{ $iconBg: string; $size: number }>`
     border-radius: 50%;
     background: ${({ $iconBg }) => $iconBg};
 
+    > svg {
+        width: ${({ $size }) => `${$size - 15}px`};
+        height: ${({ $size }) => `${$size - 15}px`};
+    }
+
     flex-shrink: 0;
 `;
-
 
 const Title = styled.p`
     font-size: 2rem;
