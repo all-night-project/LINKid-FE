@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 interface PercentBarProps {
     label: string;
     value: number;
-    variant?: "pink" | "green" | "navy";
+    variant?: "pink" | "green" | "navy" | "yellow";
 }
 
 const PercentBar = ({ label, value, variant = "pink" }: PercentBarProps) => {
@@ -46,6 +46,14 @@ const variantStyles = {
         `,
         barFill: css`
             background: #312E81;
+        `
+    },
+    yellow: {
+        label: css`
+            color: #FFC107;
+        `,
+        barFill: css`
+            background: #FFC107;
         `
     }
 };

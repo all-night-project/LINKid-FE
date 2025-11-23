@@ -6,7 +6,6 @@ interface StyleAnalysisProps {
     styleAnalysis: {
         parent: {
             metrics: { name: string; value: number }[];
-            comparison: any[];
         };
         child: {
             metrics: { name: string; value: number }[];
@@ -15,13 +14,7 @@ interface StyleAnalysisProps {
     }
 }
 
-const variantMap: Record<string, "navy" | "pink" | "green"> = {
-    "반영적 듣기": "navy",
-    "칭찬": "pink",
-    "지시형 발화": "green",
-    "자발적 발화": "navy",
-    "응답형 발화": "pink",
-};
+const variantList = ["navy", "pink", "green", "yellow"];
 
 const ReportStep3 = ({ styleAnalysis }: StyleAnalysisProps) => {
     const { parent, child } = styleAnalysis;
@@ -32,26 +25,24 @@ const ReportStep3 = ({ styleAnalysis }: StyleAnalysisProps) => {
                 {/* 부모 발화 분석 */}
                 <SectionTitle>부모 발화 분석</SectionTitle>
 
-                {parent.metrics.map((item) => (
+                {parent.metrics.map((item, index) => (
                     <PercentBar
                         key={item.name}
                         label={item.name}
                         value={item.value}
-                        variant={variantMap[item.name] ?? "navy"}
-                    // name이 매핑에 없으면 기본 navy
+                        variant={variantList[index] ?? "navy"}
+                    // index가 variantList 범위를 넘어가면 기본값
                     />
                 ))}
 
-                <GuideText>권장 범위: 15% ~ 25%</GuideText>
-
                 {/* 아이 발화 분석 */}
                 <SectionTitle>아이 발화 분석</SectionTitle>
-                {child.metrics.map((item) => (
+                {child.metrics.map((item, index) => (
                     <PercentBar
                         key={item.name}
                         label={item.name}
                         value={item.value}
-                        variant={variantMap[item.name] ?? "pink"}
+                        variant={variantList[index] ?? "navy"}
                     />
                 ))}
 
@@ -74,16 +65,10 @@ const Wrapper = styled.div`
 `;
 
 const SectionTitle = styled.p`
-    margin-top: 3px;
+    margin-top: 8px;
     font-size: 1.5rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textPrimary};
-`;
-
-const GuideText = styled.p`
-    font-size: 1.2rem;
-    color: ${({ theme }) => theme.colors.textSecondary};
-    margin-bottom: 10px;
 `;
 
 const SummaryBox = styled.div`
