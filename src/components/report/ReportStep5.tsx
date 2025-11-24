@@ -3,6 +3,7 @@ import { useState } from "react";
 import SectionCard from "../common/SectionCard";
 import Button from "../common/Button";
 import AccordionItem from "../common/AccordionItem";
+import CompleteModal from "../common/CompleteModal";
 
 interface GrowthReportProps {
     growthReport: {
@@ -29,6 +30,8 @@ const variantList = ["pink", "green", "navy"] as const;
 
 const ReportStep5 = ({ growthReport }: GrowthReportProps) => {
     const [isOpenInstances, setIsOpenInstances] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedChallenge, setSelectedChallenge] = useState<string | null>(null);
 
     return (
         <Wrapper>
@@ -56,36 +59,51 @@ const ReportStep5 = ({ growthReport }: GrowthReportProps) => {
 
                     {growthReport.challengeEvaluation.length > 0 ? (
                         <ChallengeList>
-                            {growthReport.challengeEvaluation.map((item, index) => (
-                                <Challenge key={index} >
-                                    <ChallengeWrapper>
-                                        <ChallengeTitle>
-                                            <ChallengeName>
-                                                '{item.challengeName}' {item.detectedCount}회
-                                            </ChallengeName>
-                                            <ChallengeDesc>{item.description}</ChallengeDesc>
-                                        </ChallengeTitle>
-                                        <Button
-                                            variant="primary"
-                                        >완료하기</Button>
-                                    </ChallengeWrapper>
-                                    <AccordionItem
-                                        question="어디에서 이 행동이 나타났나요?"
-                                        variant="pattern"
-                                        isOpen={isOpenInstances}
-                                        onToggle={() => setIsOpenInstances((prev) => !prev)}
-                                    >
-                                        <Content>
-                                            {item.instances.map((instance, idx) => (
-                                                <Row key={idx}>
-                                                    <Time>{instance.timestamp}초</Time>
-                                                    <Summary>{instance.summary}</Summary>
-                                                </Row>
-                                            ))}
-                                        </Content>
-                                    </AccordionItem>
-                                </Challenge>
-                            ))}
+                            {growthReport.challengeEvaluation.map((item, index) => {
+                                return (
+                                    <Challenge key={index}>
+                                        <ChallengeWrapper>
+                                            <ChallengeTitle>
+                                                <ChallengeName>
+                                                    '{item.challengeName}' {item.detectedCount}회
+                                                </ChallengeName>
+                                                <ChallengeDesc>{item.description}</ChallengeDesc>
+                                            </ChallengeTitle>
+                                            <Button
+                                                variant="primary"
+                                                onClick={() => {
+                                                    setSelectedChallenge(item.challengeName);
+                                                    setOpenModal(true);
+                                                }}
+                                            >완료하기</Button>
+                                            <CompleteModal
+                                                open={openModal}
+                                                onClose={() => setOpenModal(false)}
+                                                onSubmit={(data) => {
+                                                    console.log("기록된 날짜/회고", data);
+                                                    console.log("대상 챌린지:", selectedChallenge);
+                                                    setOpenModal(false);
+                                                }}
+                                            />
+                                        </ChallengeWrapper>
+                                        <AccordionItem
+                                            question="어디에서 이 행동이 나타났나요?"
+                                            variant="pattern"
+                                            isOpen={isOpenInstances}
+                                            onToggle={() => setIsOpenInstances((prev) => !prev)}
+                                        >
+                                            <Content>
+                                                {item.instances.map((instance, idx) => (
+                                                    <Row key={idx}>
+                                                        <Time>{instance.timestamp}초</Time>
+                                                        <Summary>{instance.summary}</Summary>
+                                                    </Row>
+                                                ))}
+                                            </Content>
+                                        </AccordionItem>
+                                    </Challenge>
+                                );
+                            })}
                         </ChallengeList>
                     ) : (
                         <EmptyMsg>

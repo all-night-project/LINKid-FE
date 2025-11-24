@@ -11,4 +11,4 @@ export const ROUTES = {
     CHALLENGE_LIST: "/challenge",
     CHALLENGE_DETAIL: (id: string) => `/challenge/${id}`,
     MYPAGE: "/mypage",
-};
+} as const;

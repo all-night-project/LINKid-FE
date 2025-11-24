@@ -4,12 +4,18 @@ interface PercentBarProps {
     label: string;
     value: number;
     variant?: "pink" | "green" | "navy" | "yellow";
+    gap?: string;
 }
 
-const PercentBar = ({ label, value, variant = "pink" }: PercentBarProps) => {
+const PercentBar = ({
+    label,
+    value,
+    variant = "pink",
+    gap = "5px",
+}: PercentBarProps) => {
 
     return (
-        <Wrapper>
+        <Wrapper gap={gap}>
             <Row>
                 <Label>{label}</Label>
                 <Value variant={variant}>{value}%</Value>
@@ -58,11 +64,11 @@ const variantStyles = {
     }
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ gap: string }>`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: ${({ gap }) => gap};
 `
 
 const Row = styled.div`
