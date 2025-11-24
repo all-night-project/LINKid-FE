@@ -9,6 +9,7 @@ import VideoUploadPage from "../pages/VideoUploadPage";
 import AnalysisPage from "../pages/AnalysisPage";
 import ReportStepPage from "../pages/ReportStepPage";
 import ReportDetailPage from "../pages/ReportDetailPage";
+import ReportListPage from "../pages/ReportListPage";
 import ChallengeListPage from "../pages/ChallengeListPage";
 import ChallengeDetailPage from "../pages/ChallengeDetailPage";
 
@@ -29,6 +30,7 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
             { path: "/analysis", element: <AnalysisPage analysisId="analyzeId" /> },
             { path: "/report/:reportId/step/:step", element: <ReportStepPage /> },
             { path: "/report/:reportId", element: <ReportDetailPage /> },
+            { path: "/report/list", element: <ReportListPage /> },
             { path: "/challenge", element: <ChallengeListPage /> },
             { path: "/challenge/:challengeId", element: <ChallengeDetailPage /> },
         ],
