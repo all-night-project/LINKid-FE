@@ -3,10 +3,12 @@ import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
 import FloatingAnalysisButton from "../common/FloatingAnalysisButton";
+import ScrollToTop from "../../router/ScrollToTop";
 
 const Layout = () => {
   return (
     <Container>
+      <ScrollToTop />
       <HeaderWrapper>
         <Header />
       </HeaderWrapper>

@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import ScrollToTop from "../../router/ScrollToTop";
 
 const PlainLayout = () => {
     return (
         <Wrapper>
+            <ScrollToTop />
             <Outlet />
         </Wrapper>
     );
