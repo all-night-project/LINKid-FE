@@ -214,6 +214,7 @@ const Chat = styled.span`
 const AIComment = styled.p`
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
+    line-height: 1.3;
 `;
 
 const Reference = styled.p`

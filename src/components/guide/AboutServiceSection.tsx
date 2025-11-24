@@ -82,4 +82,5 @@ const Text = styled.div`
     font-size: 1.4rem;
     border-radius: 10px;
     margin-top: 10px;
+    line-height: 1.4;
 `;

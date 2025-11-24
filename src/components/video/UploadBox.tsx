@@ -102,6 +102,7 @@ const Description = styled.p`
     font-weight: ${({ theme }) => theme.typography.weights.regular};
     color: ${({ theme }) => theme.colors.textSecondary};
     margin-top: 14px;
+    line-height: 1.3;
 `;
 
 const Label = styled.label`

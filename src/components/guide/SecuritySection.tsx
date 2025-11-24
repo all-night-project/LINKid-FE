@@ -71,4 +71,5 @@ const ItemDesc = styled.p`
     font-size: 1.4rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
     color: ${({ theme }) => theme.colors.textSecondary};
+    line-height: 1.3;
 `

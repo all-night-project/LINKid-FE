@@ -61,4 +61,5 @@ const Subtitle = styled.p<{ $fontColor?: string }>`
 
 const Content = styled.div`
     font-size: 1.4rem;
+    line-height: 1.3;
 `
