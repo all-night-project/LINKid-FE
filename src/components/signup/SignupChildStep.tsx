@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/common/Button";
-import Input from "../components/common/Input";
-import AccountIcon from "../assets/icons/accounts.svg?react";
-import CheckIcon from "../assets/icons/filled_check.svg?react";
-import CounterIcon2 from "../assets/icons/counter_2.svg?react";
-import MaleIcon from "../assets/icons/male.svg?react";
-import FemaleIcon from "../assets/icons/female.svg?react";
-import { ROUTES } from "../router/routes";
+import Button from "../common/Button";
+import Input from "../common/Input";
+import AccountIcon from "../../assets/icons/accounts.svg?react";
+import CheckIcon from "../../assets/icons/filled_check.svg?react";
+import CounterIcon2 from "../../assets/icons/counter_2.svg?react";
+import MaleIcon from "../../assets/icons/male.svg?react";
+import FemaleIcon from "../../assets/icons/female.svg?react";
+import { ROUTES } from "../../router/routes";
 
 const RedIcon = styled(CounterIcon2)`
   path {

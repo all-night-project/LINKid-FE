@@ -1,6 +1,6 @@
 import { useState } from "react";
-import SignupAccountStep from "./SignupAccountStep";
-import SignupChildStep from "./SignupChildStep";
+import SignupAccountStep from "../components/signup/SignupAccountStep";
+import SignupChildStep from "../components/signup/SignupChildStep";
 
 const SignupPage = () => {
     const [step, setStep] = useState(1);
@@ -16,6 +16,18 @@ const SignupPage = () => {
 
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
+
+    const registerUser = async () => {
+        try {
+            const payload = {
+                loginId: formData.id,
+                password: formData.password,
+                name: formData.name,
+                childName: formData.birth,
+                childBirth: formData.birth,
+            }
+        }
+    }
 
     return (
         <>

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/common/Button";
-import Input from "../components/common/Input";
-import AccountIcon from "../assets/icons/accounts.svg?react";
-import CounterIcon1 from "../assets/icons/counter_1.svg?react";
-import CounterIcon2 from "../assets/icons/counter_2.svg?react";
-import { ROUTES } from "../router/routes"
+import Button from "../common/Button";
+import Input from "../common/Input";
+import AccountIcon from "../../assets/icons/accounts.svg?react";
+import CounterIcon1 from "../../assets/icons/counter_1.svg?react";
+import CounterIcon2 from "../../assets/icons/counter_2.svg?react";
+import { ROUTES } from "../../router/routes"
 
 const NextButton = styled(Button)`
     weight: 100%;
