@@ -14,3 +14,8 @@ export const requestPresignedUrl = async (fileName: string, fileType: any, conte
 export const startVideoAnalysis = async (videoId: number) => {
     return api.post(`/videos/${videoId}/start`);
 };
+
+export const videoStatus = async (videoId: number) => {
+    const res = await api.get(`/videos/${videoId}/status`);
+    return res.data;
+};

@@ -28,7 +28,7 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
             { path: "/dashboard", element: <DashboardPage /> },
             { path: "/guide", element: <GuidePage /> },
             { path: "/upload", element: <VideoUploadPage /> },
-            { path: "/analysis", element: <AnalysisPage analysisId="analyzeId" /> },
+            { path: "/analysis/:videoId", element: <AnalysisPage /> },
             { path: "/report/:reportId/step/:step", element: <ReportStepPage /> },
             { path: "/report/:reportId", element: <ReportDetailPage /> },
             { path: "/report/list", element: <ReportListPage /> },

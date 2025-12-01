@@ -1,8 +1,11 @@
 import styled from "styled-components";
-import { useAnalysisStatus } from "../hooks/useAnalysisStatus";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import Spinner from "../components/common/Spinner";
 import AnalyzeInfoCarousel from "../components/video/AnalyzeInfoCarousel";
 import AichipIcon from "../assets/icons/ai-chip.svg?react";
+
+import { useVideoStatusPolling } from "../utils/useVideoStatusPolling";
 
 const infoItems = [
     {
@@ -28,13 +31,27 @@ const infoItems = [
     },
 ];
 
+const AnalysisPage = () => {
+    const navigate = useNavigate();
+    const { videoId } = useParams<{ videoId: string }>();
 
-interface AnalysisPageProps {
-    analysisId: string;
-}
+    const {
+        status,
+        message,
+        isDone,
+        reportId,
+        reportData
+    } = useVideoStatusPolling(Number(videoId));
 
-const AnalysisPage = ({ analysisId }: AnalysisPageProps) => {
-    const status = useAnalysisStatus(analysisId);
+    // 분석 완료되면 report/{reportId}/step/1으로 이동
+    useEffect(() => {
+        if (isDone && reportId) {
+            navigate(`/report/${reportId}/step/1`, {
+                state: { report: reportData }
+            });
+        }
+    }, [isDone, reportId, navigate]);
+
 
     if (!status) {
         return (
@@ -49,7 +66,7 @@ const AnalysisPage = ({ analysisId }: AnalysisPageProps) => {
     return (
         <Container>
             <Spinner size={80} color="#F4C2C2" borderWidth={10} />
-            <StatusText>{status.message}</StatusText>
+            <StatusText>{message}</StatusText>
             <AnalyzeInfoCarousel items={infoItems} />
         </Container>
     );

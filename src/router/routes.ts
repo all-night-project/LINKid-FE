@@ -4,7 +4,7 @@ export const ROUTES = {
     GUIDE: "/guide",
     DASHBOARD: "/dashboard",
     UPLOAD: "/upload",
-    ANALYSIS_LOADING: '/analysis',
+    ANALYSIS_LOADING: (videoId: string) => `/analysis/${videoId}`,
     REPORT_STEP: (id: string, step: number) => `/report/${id}/step/${step}`,
     REPORT: (id: string) => `/report/${id}`,
     REPORT_LIST: "/report/list",

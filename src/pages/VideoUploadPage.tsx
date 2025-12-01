@@ -65,7 +65,7 @@ const VideoUploadPage = () => {
                     // 분석 시작 요청
                     await startVideoAnalysis(videoId);
                     // 완료 후 분석 페이지 이동
-                    navigate(ROUTES.ANALYSIS_LOADING);
+                    navigate(ROUTES.ANALYSIS_LOADING(videoId));
                 } catch (err) {
                     console.error("분석 시작 실패", err);
                     alert("영상 업로드는 성공했지만 분석을 시작할 수 없습니다.");
