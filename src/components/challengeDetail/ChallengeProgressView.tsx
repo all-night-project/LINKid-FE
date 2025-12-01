@@ -1,88 +1,51 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { mergePracticeData } from "../../utils/challenge";
 import TrophyIcon from "../../assets/icons/trophy.svg?react";
 import BulbIcon from "../../assets/icons/bulb.svg?react";
 import Button from "../common/Button";
 import ProgressSection from "../challengeDetail/ProgressSection";
 import ProgressPracticeSection from "./ProgressPracticeSection";
-import CompleteModal from "../common/CompleteModal";
 
-const ChallengeProgressView = ({ challengeId }) => {
-    const rawChallenge = {
-        challengeId: 1,
-        title: "인내심 기르기 챌린지",
-        how: "즉시 긍정적으로 반응하고 성취감을 인정해주세요.",
-        period: "9월 10일 ~ 9월 17일",
-        status: "ACTIVE",
-        sourceReportId: 122,
-        description: "아이가 성과를 공유할 때 즉시 공감하며 반응하기",
-        targetCount: 3,
+import type { ChallengeDetail } from "../../types/challenge";
 
-        strategyGuide: {
-            examples: [
-                "우와, 이걸 혼자서 다 만들었구나!",
-                "오, 정말 멋진 작품이네!",
-                "와, 노력한 게 눈에 보여!"
-            ]
-        },
+interface Props {
+    detail: ChallengeDetail;
+    onRefresh: () => void;
+}
 
-        practiceLogs: [
-            {
-                logId: 101,
-                memo: "오늘 아이가 그림 그린 것 자랑할 때 바로 칭찬해줬다!",
-                createdAt: "2025-01-16T10:00:00Z"
-            },
-            {
-                logId: 102,
-                memo: "블록 쌓은 것 봐달라고 할 때 '잠깐만'이라고 해서 놓쳤다. 내일은 꼭 바로 반응해야지.",
-                createdAt: "2025-01-17T18:30:00Z"
-            }
-        ],
+const ChallengeProgressView = ({ detail, onRefresh }: Props) => {
 
-        currentCount: 2
-    };
-
-    const practices = mergePracticeData(
-        rawChallenge.strategyGuide,
-        rawChallenge.practiceLogs,
-        rawChallenge.targetCount
-    );
-
-    const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
 
     return (
         <Wrapper>
             <Header>
                 <Icon><TrophyIcon /></Icon>
-                <Title>{rawChallenge.title}</Title>
-                <How>{rawChallenge.how}</How>
-                <Goal>(목표: {rawChallenge.targetCount}회)</Goal>
+                <Title>{detail.title}</Title>
+                <How>{detail.goal}</How>
+                <Goal>(목표: {detail.totalCount}회)</Goal>
             </Header>
 
             <ProgressSection
-                period={rawChallenge.period}
-                currentCount={rawChallenge.currentCount}
-                targetCount={rawChallenge.targetCount}
+                period={detail.period}
+                currentCount={detail.currentCount}
+                targetCount={detail.totalCount}
+                progressPercent={detail.progressPercent}
             />
             <ProgressPracticeSection
-                practices={practices}
-                onClickComplete={() => setOpenModal(true)}
+                practices={detail.actions}
+                onRefresh={onRefresh}
             />
 
             <GrowthCard>
                 <BulbIcon width={33} height={33} />
                 <GrowthTitle>매일의 성장</GrowthTitle>
-                <GrowthText>벌써 1번째 실천 중이에요! 계속 화이팅!</GrowthText>
+                <GrowthText>벌써 {detail.currentCount}번째 실천 중이에요! 계속 화이팅!</GrowthText>
             </GrowthCard>
 
             <Button
-                onClick={() => navigate(`/report/${rawChallenge.sourceReportId}`)}
+                onClick={() => navigate(`/report/${detail.relatedReportId}`)}
             >관련 분석 보러가기</Button>
-
-            <CompleteModal open={openModal} onClose={() => setOpenModal(false)} />
         </Wrapper >
     );
 };
@@ -93,6 +56,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
 
     > Button {
         height: 47px;
@@ -104,6 +68,7 @@ const Header = styled.div`
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
+    text-align: center;
 `;
 
 const Icon = styled.div`
@@ -125,12 +90,21 @@ const Title = styled.h2`
     font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.bold};
     margin-bottom: 15px;
+    max-width: 280px;
+    text-align: center;
+    word-break: keep-all;
+    white-space: normal;
+    line-height: 1.3;
 `;
 
 const How = styled.p`
     font-size: 1.3rem;
     color: ${({ theme }) => theme.colors.textSecondary};
     margin-bottom: 10px;
+    max-width: 350px;
+    text-align: center;
+    word-break: keep-all;
+    line-height: 1.3;
 `
 
 const Goal = styled.p`
@@ -139,6 +113,7 @@ const Goal = styled.p`
 `;
 
 const GrowthCard = styled.div`
+    width: 100%;
     padding: 16px;
     background: rgba(200, 230, 201, 0.6);
     border-radius: 10px;

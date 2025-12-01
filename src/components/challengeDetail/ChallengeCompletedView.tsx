@@ -1,57 +1,12 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { mergePracticeData } from "../../utils/challenge";
 import TrophyIcon from "../../assets/icons/trophy.svg?react";
 import CompletedPracticeSection from "./CompletedPracticeSection";
 import Button from "../common/Button";
 
-const ChallengeCompletedView = ({ challengeId }) => {
-    const rawChallenge = {
-        challengeId: 3,
-        title: "인내심 기르기 챌린지",
-        how: "즉시 긍정적으로 반응하고 성취감을 인정해주세요.",
-        period: "9월 10일 ~ 9월 17일",
-        status: "COMPLETED",
-        sourceReportId: 122,
-        description: "아이가 성과를 공유할 때 즉시 공감하며 반응하기",
-        targetCount: 3,
+import type { ChallengeDetail } from "../../types/challenge";
 
-        strategyGuide: {
-            examples: [
-                "우와, 이걸 혼자서 다 만들었구나!",
-                "오, 정말 멋진 작품이네!",
-                "와, 노력한 게 눈에 보여!"
-            ]
-        },
-
-        practiceLogs: [
-            {
-                logId: 101,
-                memo: "오늘 아이가 그림 그린 것 자랑할 때 바로 칭찬해줬다!",
-                createdAt: "2025-01-16T10:00:00Z"
-            },
-            {
-                logId: 102,
-                memo: "블록 쌓은 것 봐달라고 할 때 '잠깐만'이라고 해서 놓쳤다. 내일은 꼭 바로 반응해야지.",
-                createdAt: "2025-01-17T18:30:00Z"
-            },
-            {
-                logId: 103,
-                memo: "블록 쌓은 것 봐달라고 할 때 '잠깐만'이라고 해서 놓쳤다. 내일은 꼭 바로 반응해야지.",
-                createdAt: "2025-01-18T18:30:00Z"
-            }
-        ],
-
-        currentCount: 3
-    };
-
-    const practices = mergePracticeData(
-        rawChallenge.strategyGuide,
-        rawChallenge.practiceLogs,
-        rawChallenge.targetCount
-    );
-
-    const percent = Math.round((rawChallenge.currentCount / rawChallenge.targetCount) * 100);
+const ChallengeCompletedView = ({ detail }: { detail: ChallengeDetail }) => {
 
     const navigate = useNavigate();
 
@@ -59,17 +14,17 @@ const ChallengeCompletedView = ({ challengeId }) => {
         <Wrapper>
             <Header>
                 <Icon><TrophyIcon /></Icon>
-                <Title>{rawChallenge.title}</Title>
-                <How>{rawChallenge.how}</How>
-                <Achievement>달성률 {percent}%</Achievement>
+                <Title>{detail.title}</Title>
+                <How>{detail.goal}</How>
+                <Achievement>달성률 {detail.progressPercent}%</Achievement>
             </Header>
 
             <CompletedPracticeSection
-                practices={practices}
+                practices={detail.actions}
             />
 
             <Button
-                onClick={() => navigate(`/report/${rawChallenge.sourceReportId}`)}
+                onClick={() => navigate(`/report/${detail.relatedReportId}`)}
             >관련 분석 보러가기</Button>
 
         </Wrapper>
@@ -115,12 +70,21 @@ const Title = styled.h2`
     font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.bold};
     margin-bottom: 15px;
+    max-width: 280px;
+    text-align: center;
+    word-break: keep-all;
+    white-space: normal;
+    line-height: 1.3;
 `;
 
 const How = styled.p`
     font-size: 1.3rem;
     color: ${({ theme }) => theme.colors.textSecondary};
     margin-bottom: 10px;
+    max-width: 350px;
+    text-align: center;
+    word-break: keep-all;
+    line-height: 1.3;
 `
 
 const Achievement = styled.p`

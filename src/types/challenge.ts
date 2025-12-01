@@ -6,41 +6,22 @@ export interface Challenge {
     status: "ACTIVE" | "COMPLETED";
 }
 
-// 원본 API 형태
-export interface StrategyGuide {
-    examples: string[];
-}
-
-export interface PracticeLog {
-    logId: number;
-    memo: string;
-    createdAt: string;
+export interface ChallengeAction {
+    actionId: number;
+    content: string;
+    completedDate: string | null;
+    reflection: string | null;
+    completed: boolean;
 }
 
 export interface ChallengeDetail {
     challengeId: number;
     title: string;
-    how: string;
-    period: string;
-    status: "ACTIVE" | "FINISHED";
-    sourceReportId: number;
-    description: string;
-    targetCount: number;
-    strategyGuide: StrategyGuide;
-    practiceLogs: PracticeLog[];
+    goal: string;
+    period: string; // "11월 24일 ~ 12월 1일"
+    progressPercent: number;
     currentCount: number;
-}
-
-// UI 렌더용 타입
-export interface PracticeItem {
-    id: number;
-    label: string;
-    completed: boolean;
-    createdAt: string | null;
-    review: string | null;
-}
-
-// ChallengeDetail + PracticeItem 합친 최종 타입
-export interface ChallengeWithPractices extends ChallengeDetail {
-    practices: PracticeItem[];
+    totalCount: number;
+    relatedReportId: number;
+    actions: ChallengeAction[];
 }

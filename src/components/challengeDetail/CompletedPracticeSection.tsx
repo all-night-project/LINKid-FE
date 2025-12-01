@@ -1,31 +1,36 @@
 import styled from "styled-components";
-import type { PracticeItem } from "../../types/challenge";
-import { formatDateString } from "../../utils/challenge";
 import CheckIcon from "../../assets/icons/check_circle.svg?react";
 import MessageIcon from "../../assets/icons/message-thin.svg?react";
 
-interface PracticeListProps {
-    practices: PracticeItem[];
+import type { ChallengeAction } from "../../types/challenge";
+
+
+interface CompletedPracticeSectionProps {
+    practices: ChallengeAction[];
 }
 
-const CompletedPracticeSection = ({ practices }: PracticeListProps) => {
+const CompletedPracticeSection = ({ practices }: CompletedPracticeSectionProps) => {
     return (
         <Wrapper>
             <SectionTitle>실천 목록</SectionTitle>
 
             {practices.map((p) => (
-                <PracticeItem key={p.id}>
+                <PracticeItem key={p.actionId}>
                     <Row>
                         <CheckIcon />
-                        <Label>{p.label}</Label>
-                        <Date>{p.createdAt ? formatDateString(p.createdAt) : ""}</Date>
+                        <Label>{p.content}</Label>
                     </Row>
-
+                    <Date>{p.completedDate ?? ""}</Date>
                     <Review>
                         <Icon>
                             <MessageIcon />
                         </Icon>
-                        <ReviewText>{p.review}</ReviewText>
+                        {p.reflection ? (
+                            <ReviewText>{p.reflection}</ReviewText>
+
+                        ) : (
+                            <EmptyText>작성된 회고가 없어요!</EmptyText>
+                        )}
                     </Review>
                 </PracticeItem>
             ))}
@@ -63,6 +68,7 @@ const PracticeItem = styled.div`
 const Row = styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 5px;
 
     > svg path {
@@ -74,16 +80,19 @@ const Label = styled.p`
     font-size: 1.5rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
     margin-right: 5px;
+    max-width: 305px;
+    line-height: 1.3;
 `;
 
 const Date = styled.p`
+    margin-left: 30px;
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
     color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
 const Review = styled.div`
-    margin-left: 25px;
+    margin-left: 30px;
     padding: 10px 8px;
     display: flex;
     gap: 11px;
@@ -102,8 +111,8 @@ const ReviewText = styled.p`
 const Icon = styled.div`
     width: 18px;
     height: 18px;
-    min-width: 18px;
-    min-height: 18px;
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,4 +122,9 @@ const Icon = styled.div`
         height: 100%;
         display: block;
     }
+`;
+
+const EmptyText = styled.p`
+    font-size: 1.3rem;
+    line-height: 1.3;
 `;

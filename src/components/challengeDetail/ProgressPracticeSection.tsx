@@ -1,29 +1,39 @@
 import styled from "styled-components";
-import type { PracticeItem } from "../../types/challenge";
-import { formatDateString } from "../../utils/challenge";
+import { useState } from "react";
 import Button from "../common/Button";
 import CheckIcon from "../../assets/icons/check_circle.svg?react";
 import MessageIcon from "../../assets/icons/message-thin.svg?react";
+import CompleteModal from "../common/CompleteModal";
+
+import type { ChallengeAction } from "../../types/challenge";
 
 interface PracticeListProps {
-    practices: PracticeItem[];
-    onClickComplete: (id: number) => void;
+    practices: ChallengeAction[];
+    onRefresh: () => void;
 }
 
-const PracticeListSection = ({ practices, onClickComplete }: PracticeListProps) => {
+const PracticeListSection = ({ practices, onRefresh }: PracticeListProps) => {
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedActionId, setSelectedActionId] = useState<number | null>(null);
+
+    const handleOpenModal = (actionId: number) => {
+        setSelectedActionId(actionId);
+        setOpenModal(true);
+    };
+
     return (
         <Wrapper>
             <SectionTitle>실천 목록</SectionTitle>
 
-            {practices.map((p) => (
-                <PracticeItem key={p.id}>
+            {practices.map((p, index) => (
+                <PracticeItem key={p.actionId}>
                     <Row completed={p.completed}>
                         <LeftBox>
-                            <Number>{p.id}.</Number>
+                            <Number>{index + 1}.</Number>
                             <TextBox>
-                                <Label>{p.label}</Label>
+                                <Label>{p.content}</Label>
                                 {p.completed && (
-                                    <Date>{p.createdAt ? formatDateString(p.createdAt) : ""}</Date>
+                                    <Date>{p.completedDate ?? ""}</Date>
                                 )}
                             </TextBox>
                         </LeftBox>
@@ -33,7 +43,7 @@ const PracticeListSection = ({ practices, onClickComplete }: PracticeListProps) 
                         ) : (
                             <Button
                                 variant="primary"
-                                onClick={() => onClickComplete(p.id)}
+                                onClick={() => handleOpenModal(p.actionId)}
                             >
                                 완료하기
                             </Button>
@@ -41,19 +51,33 @@ const PracticeListSection = ({ practices, onClickComplete }: PracticeListProps) 
                     </Row>
 
                     {/* 회고가 있을 때만 표시 */}
-                    {p.review && (
+                    {p.completed && (
                         <Review>
                             <Icon>
                                 <MessageIcon />
                             </Icon>
                             <ReviewTextBox>
                                 <ReviewTitle>나의 회고</ReviewTitle>
-                                <ReviewText>{p.review}</ReviewText>
+                                {p.reflection ? (
+                                    <ReviewText>{p.reflection}</ReviewText>
+
+                                ) : (
+                                    <EmptyText>작성된 회고가 없어요!</EmptyText>
+                                )}
                             </ReviewTextBox>
                         </Review>
                     )}
                 </PracticeItem>
             ))}
+            <CompleteModal
+                open={openModal}
+                actionId={selectedActionId ?? 0}
+                onClose={() => setOpenModal(false)}
+                onCompleted={() => {
+                    onRefresh();  // 🔥 상위에서 refresh 호출
+                    setOpenModal(false);
+                }}
+            />
         </Wrapper>
     );
 };
@@ -61,6 +85,7 @@ const PracticeListSection = ({ practices, onClickComplete }: PracticeListProps) 
 export default PracticeListSection;
 
 const Wrapper = styled.div`
+    width: 100%;
     background: white;
     padding: 18px;
     border-radius: 10px;
@@ -123,6 +148,10 @@ const TextBox = styled.p`
 const Label = styled.p`
     font-size: 1.5rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
+    max-width: 230px;   
+    word-break: keep-all;
+    white-space: normal;
+    line-height: 1.3;
 `;
 
 const Date = styled.p`
@@ -170,4 +199,9 @@ const Icon = styled.div`
         width: 100%;
         height: 100%;
     }
+`;
+
+const EmptyText = styled.p`
+    font-size: 1.3rem;
+    line-height: 1.3;
 `;

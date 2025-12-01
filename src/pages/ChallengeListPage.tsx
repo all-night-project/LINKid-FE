@@ -43,7 +43,9 @@ const ChallengeListPage = () => {
 
     const goToDetail = (c: Challenge) => {
         const status = c.status === "COMPLETED" ? "COMPLETED" : "ACTIVE";
-        navigate(`/challenge/${c.challengeId}?status=${status}`);
+        navigate(`/challenge/${c.challengeId}`, {
+            state: { status }
+        });
     };
 
 
@@ -207,6 +209,8 @@ const RightArea = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 90px;
+    flex-shrink: 0;
 `;
 
 const StatusBlue = styled.span`

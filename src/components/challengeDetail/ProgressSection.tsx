@@ -4,20 +4,19 @@ export interface ProgressSectionProps {
     period: string;
     currentCount: number;
     targetCount: number;
+    progressPercent: number;
 }
 
-const ProgressSection = ({ period, currentCount, targetCount }: ProgressSectionProps) => {
-    const percent = Math.round((currentCount / targetCount) * 100);
-
+const ProgressSection = ({ period, currentCount, targetCount, progressPercent }: ProgressSectionProps) => {
     return (
         <Card>
             <Header>
                 <Title>진행 현황</Title>
-                <PercentTag>{percent}%</PercentTag>
+                <PercentTag>{progressPercent}%</PercentTag>
             </Header>
 
             <Bar>
-                <Fill style={{ width: `${percent}%` }} />
+                <Fill style={{ width: `${progressPercent}%` }} />
             </Bar>
 
             <Bottom>
@@ -31,6 +30,7 @@ const ProgressSection = ({ period, currentCount, targetCount }: ProgressSectionP
 export default ProgressSection;
 
 const Card = styled.div`
+    width: 100%;
     padding: 18px;
     background: white;
     border-radius: 10px;

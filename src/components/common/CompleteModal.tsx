@@ -6,16 +6,23 @@ import DatePicker from "react-datepicker";
 import Button from "./Button";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { submitMemo } from "../../api/challenge";
+
 interface CompleteModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit?: (data: { date: string; memo: string }) => void;
+    actionId: number;
+    onCompleted: (id: number) => void;
 }
 
-const CompleteModal = ({ open, onClose, onSubmit }: CompleteModalProps) => {
+const CompleteModal = ({ open, onClose, actionId, onCompleted }: CompleteModalProps) => {
     if (!open) return null;
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+    console.log(`actionId: ${actionId}`);
+
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [memo, setMemo] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // 모달이 열릴 때마다 오늘 날짜로 초기화
     useEffect(() => {
@@ -25,20 +32,26 @@ const CompleteModal = ({ open, onClose, onSubmit }: CompleteModalProps) => {
         }
     }, [open]);
 
-    if (!open) return null;
 
-    const handleSubmit = () => {
-        if (!onSubmit) return;
-        onSubmit({
-            date: selectedDate.toISOString(),
-            memo
-        });
-        onClose();
+    const handleSubmit = async () => {
+        if (!actionId) console.log("action없음");
+
+        try {
+            setLoading(true);
+
+            await submitMemo(actionId, memo);
+            onCompleted(actionId);
+            onClose(); // 닫기
+        } catch (err) {
+            console.error("회고 제출 실패", err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <Backdrop onClick={onClose}>
-            <ModalContainer>
+            <ModalContainer onClick={(e) => e.stopPropagation()}>
                 <ModalTitle>실천 완료 기록</ModalTitle>
                 <ModalSubtitle>
                     실천한 날짜와 회고를 작성해보세요
@@ -54,7 +67,9 @@ const CompleteModal = ({ open, onClose, onSubmit }: CompleteModalProps) => {
                     <DatePickerWrapper>
                         <DatePicker
                             selected={selectedDate}
-                            onChange={(date: Date) => setSelectedDate(date)}
+                            onChange={(date: Date | null) => {
+                                if (date) setSelectedDate(date);
+                            }}
                             dateFormat="yyyy.MM.dd"
                             maxDate={new Date()}
                         />
@@ -87,7 +102,7 @@ const CompleteModal = ({ open, onClose, onSubmit }: CompleteModalProps) => {
                     >완료 기록하기</Button>
                 </ButtonRow>
             </ModalContainer>
-        </Backdrop>
+        </Backdrop >
     );
 };
 
