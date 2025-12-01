@@ -38,6 +38,8 @@ const LoginPage = () => {
             const data = await login(id, password); // API 호출
             console.log("✅ 로그인 성공:", data);
 
+            localStorage.setItem("accessToken", data.data.accessToken);
+
             setError("");
             navigate(ROUTES.DASHBOARD);
         } catch (err: any) {
