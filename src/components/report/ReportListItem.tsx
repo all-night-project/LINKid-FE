@@ -1,21 +1,33 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import RightArrow from "../../assets/icons/right-arrow.svg?react";
-import type { ReportItem } from "../../types/report";
+import type { ReportSummary } from "../../types/report";
 
 interface ReportItemProps {
-    report: ReportItem;
+    report: ReportSummary;
 }
+
+export const formatSeconds = (seconds: number): string => {
+    if (!seconds || seconds < 0) return "0초";
+
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+
+    if (minutes === 0) return `${secs}초`;
+    return `${minutes}분 ${secs}초`;
+};
 
 const ReportListItem = ({ report }: ReportItemProps) => {
     const dateObj = new Date(report.createdAt);
     const date = dateObj.toISOString().split("T")[0]; // YYYY-MM-DD
     const time = dateObj.toTimeString().slice(0, 5);
 
+    const duration = formatSeconds(report.durationSeconds);
+
     const navigate = useNavigate();
 
     return (
-        <Card onClick={() => navigate(`/report/${report.id}`)}>
+        <Card onClick={() => navigate(`/report/${report.reportId}`)}>
             <Top>
                 <DateText>{date}</DateText>
                 <TimeText>{time}</TimeText>
@@ -23,20 +35,20 @@ const ReportListItem = ({ report }: ReportItemProps) => {
             </Top>
 
             <TagList>
-                <Tag bg="#FFF3E0">{report.situation}</Tag>
-                <Tag bg="#EAEAF6">{report.pattern}</Tag>
-                <Duration>{report.duration}</Duration>
+                <Tag bg="#FFF3E0">{report.contextTag}</Tag>
+                <Tag bg="#EAEAF6">{report.relationshipStatus}</Tag>
+                <Duration>{duration}</Duration>
             </TagList>
 
             <StatRow>
                 <StatBox $type="positive">
                     <StatLabel>긍정적 상호작용</StatLabel>
-                    <StatValue $type="positive">{report.positive}</StatValue>
+                    <StatValue $type="positive">{report.piScore}</StatValue>
                 </StatBox>
 
                 <StatBox $type="negative">
                     <StatLabel>부정적 상호작용</StatLabel>
-                    <StatValue $type="negative">{report.negative}</StatValue>
+                    <StatValue $type="negative">{report.ndiScore}</StatValue>
                 </StatBox>
             </StatRow>
         </Card>
