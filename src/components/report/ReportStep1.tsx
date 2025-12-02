@@ -12,8 +12,8 @@ interface DashboardProps {
 }
 
 const ReportStep1 = ({ dashboard }: DashboardProps) => {
-    const piScore = dashboard.positive_ratio * 100;
-    const ndiScore = dashboard.negative_ratio * 100;
+    const piScore = Math.round(dashboard.positive_ratio * 100);
+    const ndiScore = Math.round(dashboard.negative_ratio * 100);
 
     return (
         <Wrapper>
