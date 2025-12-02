@@ -4,30 +4,40 @@ import { useEffect } from "react";
 import Spinner from "../components/common/Spinner";
 import AnalyzeInfoCarousel from "../components/video/AnalyzeInfoCarousel";
 import AichipIcon from "../assets/icons/ai-chip.svg?react";
+import CoachingIcon from "../assets/icons/coaching.svg?react";
+import YardIcon from "../assets/icons/yard.svg?react";
+import ExpertIcon from "../assets/icons/expert.svg?react";
 
-import { useVideoStatusPolling } from "../utils/useVideoStatusPolling";
+import { useAnalysisStore } from "../store/useAnalysisStore";
 
 const infoItems = [
     {
         id: 1,
         icon: <AichipIcon />,
-        title: "AI는 어떤 방식으로 분석하나요?",
+        title: "부모와 아이의 목소리를 분리해요",
         description:
-            "분석을 시도한 페이지에서 로딩 애니메이션 또는 분석 요약을 보여주며, 페이지 이탈을 제한합니다.",
+            "부모님과 아이의 음성을 자동으로 구분합니다. 누가 어떤 말을 했는지 명확히 구별해 더욱 정확한 분석이 가능해요.",
     },
     {
         id: 2,
-        icon: <AichipIcon />,
-        title: "음성 분석 단계",
+        icon: <ExpertIcon />,
+        title: "전문가들의 기준으로 행동 유형을 분류해요",
         description:
-            "녹음된 음성에서 부모와 아이의 발화를 분리하고, 대화 패턴을 정량적으로 분석합니다.",
+            "부모·아동 상호작용 평가에 실제로 사용되는 행동 분류 체계를 기반으로 칭찬, 반영적 듣기, 지시, 질문, 부정적 피드백 등으로 분류합니다.",
     },
     {
         id: 3,
-        icon: <AichipIcon />,
-        title: "영상 인식 단계",
+        icon: <YardIcon />,
+        title: "상호작용 지표를 수치화해 계산해요",
         description:
-            "영상 프레임을 기반으로 아이의 표정, 제스처, 움직임 등을 감지하여 상호작용의 질을 평가합니다.",
+            "긍정/지시 비율(PI/NDI), 질문 응답률 등 전문가가 리포트에서 제공하는 핵심 지표들을 수치화합니다.",
+    },
+    {
+        id: 4,
+        icon: <CoachingIcon />,
+        title: "맞춤형 챌린지를 추천해요",
+        description:
+            "분석된 데이터를 기반으로 부모님 스타일과 아이의 반응 패턴을 해석하고 실제 전문가들의 전략을 참고해 실천 챌린지와 맞춤형 코칭 문구를 생성합니다.",
     },
 ];
 
