@@ -13,7 +13,7 @@ import type { Challenge } from "../types/challenge";
 const ChallengeListPage = () => {
     const navigate = useNavigate();
 
-    const [tab, setTab] = useState<"ACTIVE" | "COMPLETED">("ACTIVE");
+    const [tab, setTab] = useState<"PROCEEDING" | "COMPLETED">("PROCEEDING");
     const [activeList, setActiveList] = useState<Challenge[]>([]);
     const [completedList, setCompletedList] = useState<Challenge[]>([]);
     const [loading, setLoading] = useState(true);
@@ -22,11 +22,19 @@ const ChallengeListPage = () => {
     useEffect(() => {
         const fetchAll = async () => {
             setLoading(true);
+
+            // 🔥 기존 데이터를 제거 (섞이는 문제 해결)
+            setActiveList([]);
+            setCompletedList([]);
+
             try {
                 const [active, completed] = await Promise.all([
                     getMyChallenge("ACTIVE"),
                     getMyChallenge("COMPLETED"),
                 ]);
+
+                console.log("ACTIVE API:", active);
+                console.log("COMPLETED API:", completed);
 
                 setActiveList(active);
                 setCompletedList(completed);
@@ -40,12 +48,9 @@ const ChallengeListPage = () => {
         fetchAll();
     }, []);
 
-    const challenges = tab === "ACTIVE" ? activeList : completedList;
-
     const goToDetail = (c: Challenge) => {
-        const status = c.status === "COMPLETED" ? "COMPLETED" : "ACTIVE";
         navigate(`/challenge/${c.challengeId}`, {
-            state: { status }
+            state: { status: c.status }    // 원본 그대로 쓰기
         });
     };
 
@@ -54,8 +59,8 @@ const ChallengeListPage = () => {
         <Wrapper>
             <TabContainer>
                 <TabButton
-                    $active={tab === "ACTIVE"}
-                    onClick={() => setTab("ACTIVE")}
+                    $active={tab === "PROCEEDING"}
+                    onClick={() => setTab("PROCEEDING")}
                 >
                     진행 중
                 </TabButton>
@@ -71,7 +76,7 @@ const ChallengeListPage = () => {
             {loading && <div></div>}
 
             <ListWrapper>
-                {tab === "ACTIVE" && (
+                {tab === "PROCEEDING" && (
                     activeList.length === 0 ? (
                         <EmptyState>
                             <EmptyText>아직 진행 중인 챌린지가 없어요.</EmptyText>
@@ -85,63 +90,69 @@ const ChallengeListPage = () => {
                             </Button>
                         </EmptyState>
                     ) : (
-                        activeList.map((c) => (
-                            <ProgressCard key={c.challengeId} onClick={() => goToDetail(c)}>
-                                <Top>
-                                    <InfoArea>
-                                        <TitleText>{c.title}</TitleText>
-                                        <Period>{c.period}</Period>
-                                    </InfoArea>
-                                    <RightArea>
-                                        <StatusBlue>진행 중</StatusBlue>
-                                        <EllipseIcon />
-                                    </RightArea>
-                                </Top>
+                        activeList
+                            .filter(c => c.status === "PROCEEDING")
+                            .map((c) => (
+                                <ProgressCard key={c.challengeId} onClick={() => goToDetail(c)}>
+                                    <Top>
+                                        <InfoArea>
+                                            <TitleText>{c.title}</TitleText>
+                                            <Period>{c.period}</Period>
+                                        </InfoArea>
+                                        <RightArea>
+                                            <StatusBlue>진행 중</StatusBlue>
+                                            <EllipseIcon />
+                                        </RightArea>
+                                    </Top>
 
-                                <PercentBar
-                                    label="진행 현황"
-                                    value={c.progressPercent}
-                                    variant="pink"
-                                    gap="10px"
-                                />
-                            </ProgressCard>
-                        ))
+                                    <PercentBar
+                                        label="진행 현황"
+                                        value={c.progressPercent}
+                                        variant="pink"
+                                        gap="10px"
+                                    />
+                                </ProgressCard>
+                            ))
                     )
                 )}
 
-                {tab === "COMPLETED" &&
+                {tab === "COMPLETED" && (
                     completedList.length === 0 ? (
-                    <EmptyState>
-                        <EmptyText>아직 완료된 챌린지가 없어요.</EmptyText>
-                        <SubText>도전한 챌린지를 끝까지 실천해보세요!</SubText>
-                    </EmptyState>
-                ) : (
-                    completedList.map((c) => {
-                        const isSuccess = c.progressPercent >= 100;
+                        <EmptyState>
+                            <EmptyText>아직 완료된 챌린지가 없어요.</EmptyText>
+                            <SubText>도전한 챌린지를 끝까지 실천해보세요!</SubText>
+                        </EmptyState>
+                    ) : (
+                        completedList
+                            .filter(c => c.status === "COMPLETED" || c.status === "FAILED")
+                            .map((c) => {
+                                const isSuccess = c.status === "COMPLETED";
+                                const isFailed = c.status === "FAILED";
 
-                        return (
-                            <DoneCard key={c.challengeId} onClick={() => goToDetail(c)}>
-                                <InfoArea>
-                                    <TitleText>{c.title}</TitleText>
-                                    <Period>{c.period}</Period>
-                                </InfoArea>
+                                return (
+                                    <DoneCard key={c.challengeId} onClick={() => goToDetail(c)}>
+                                        <InfoArea>
+                                            <TitleText>{c.title}</TitleText>
+                                            <Period>{c.period}</Period>
+                                        </InfoArea>
 
-                                <RightArea>
-                                    {isSuccess ? (
-                                        <StatusSuccess>
-                                            <SuccessText>성공</SuccessText>
-                                            <CheckIcon width={35} height={35} />
-                                        </StatusSuccess>
-                                    ) : (
-                                        <StatusFail>
-                                            <FailText>실패</FailText>
-                                            <CancelIcon width={35} height={35} />
-                                        </StatusFail>
-                                    )}
-                                </RightArea>
-                            </DoneCard>
-                        );
-                    })
+                                        <RightArea>
+                                            {isSuccess ? (
+                                                <StatusSuccess>
+                                                    <SuccessText>성공</SuccessText>
+                                                    <CheckIcon width={35} height={35} />
+                                                </StatusSuccess>
+                                            ) : isFailed ? (
+                                                <StatusFail>
+                                                    <FailText>실패</FailText>
+                                                    <CancelIcon width={35} height={35} />
+                                                </StatusFail>
+                                            ) : null}
+                                        </RightArea>
+                                    </DoneCard>
+                                );
+                            })
+                    )
                 )}
             </ListWrapper>
         </Wrapper>
