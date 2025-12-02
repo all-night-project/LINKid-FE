@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
-import FloatingAnalysisButton from "../common/FloatingAnalysisButton";
+import FloatingAnalysisButton from "../common/FloatingButton";
 import ScrollToTop from "../../router/ScrollToTop";
 
 const Layout = () => {
@@ -36,6 +36,7 @@ const Container = styled.div`
     height: 100vh;
     overflow: hidden;
     background-color: ${({ theme }) => theme.colors.background};
+    position: relative;
 `;
 
 const HeaderWrapper = styled.header`

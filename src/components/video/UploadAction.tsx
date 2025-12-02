@@ -6,15 +6,25 @@ interface UploadActionsProps {
     selectedSituation: string | null;
     onAnalyzeClick: () => void;
     disabled?: boolean;
+    uploadStatus: "idle" | "uploading" | "done";
 }
 
 const UploadActions = ({
     isVideoUploaded,
     selectedSituation,
     onAnalyzeClick,
-    disabled = false
+    disabled = false,
+    uploadStatus
 }: UploadActionsProps) => {
     const canAnalyze = isVideoUploaded && selectedSituation && !disabled;
+
+    if (uploadStatus === "uploading") {
+        return (
+            <Button variant="disabled">
+                업로드 중입니다...
+            </Button>
+        );
+    }
 
     return (
         <>

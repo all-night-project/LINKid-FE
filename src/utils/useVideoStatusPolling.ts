@@ -1,39 +1,40 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { videoStatus } from "../api/video";
 import { useReportStore } from "../store/useReportStore";
+import { useAnalysisStore } from "../store/useAnalysisStore";
 
-export const useVideoStatusPolling = (videoId: number) => {
-    const [status, setStatus] = useState<string | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
-    const [isDone, setIsDone] = useState(false);
-    const [reportId, setReportId] = useState<number | null>(null);
-
+export const useVideoStatusPolling = () => {
     const { setReport } = useReportStore();
+    // store에서 targetVideoId를 가져옴
+    const { targetVideoId, updateStatus, isDone } = useAnalysisStore();
 
     useEffect(() => {
-        if (!videoId) return;
+        // 분석할 비디오가 없거나 이미 완료되었으면 폴링하지 않음
+        if (!targetVideoId || isDone) return;
 
         const interval = setInterval(async () => {
             try {
-                const res = await videoStatus(videoId);
+                const res = await videoStatus(targetVideoId);
                 const data = res.data;
 
-                setStatus(data.status);
-                setMessage(data.message);
+                const completed = data.status === "COMPLETED";
 
-                if (data.status === "COMPLETED") {
-                    setIsDone(true);
-                    setReportId(data.reportId);
-                    setReport(data.result);
+                updateStatus(
+                    data.status,
+                    completed,
+                    data.reportId ?? null,
+                    data.message ?? null
+                );
+
+                if (completed) {
+                    if (data.result) setReport(data.result);
                     clearInterval(interval);
                 }
             } catch (err) {
                 console.error("분석 상태 조회 실패", err);
             }
-        }, 2500); // 2.5초마다 Polling
+        }, 2500);
 
         return () => clearInterval(interval);
-    }, [videoId]);
-
-    return { status, message, isDone, reportId };
+    }, [targetVideoId, isDone, updateStatus, setReport]);
 };

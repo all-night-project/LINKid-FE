@@ -45,17 +45,16 @@ const AnalysisPage = () => {
     const navigate = useNavigate();
     const { videoId } = useParams<{ videoId: string }>();
 
-    const {
-        status,
-        message,
-        isDone,
-        reportId
-    } = useVideoStatusPolling(Number(videoId));
+    const { status, statusMessage, isDone, reportId } = useAnalysisStore();
 
     // 분석 완료되면 report/{reportId}/step/1으로 이동
     useEffect(() => {
         if (isDone && reportId) {
-            navigate(`/report/${reportId}/step/1`);
+            // 사용자가 완료 메시지를 볼 수 있도록 약간의 지연 후 이동
+            const timer = setTimeout(() => {
+                navigate(`/report/${reportId}/step/1`);
+            }, 1000);
+            return () => clearTimeout(timer);
         }
     }, [isDone, reportId, navigate]);
 
@@ -73,7 +72,8 @@ const AnalysisPage = () => {
     return (
         <Container>
             <Spinner size={80} color="#F4C2C2" borderWidth={10} />
-            <StatusText>{message}</StatusText>
+            <StatusText>{statusMessage}</StatusText>
+            <SubText>잠시 다른 페이지를 다녀오셔도 분석은 계속됩니다.</SubText>
             <AnalyzeInfoCarousel items={infoItems} />
         </Container>
     );
@@ -94,4 +94,12 @@ const StatusText = styled.p`
     font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     margin-top: 20px;
-`
+`;
+
+const SubText = styled.p`
+    font-size: 1.4rem;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    margin-top: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+`;;

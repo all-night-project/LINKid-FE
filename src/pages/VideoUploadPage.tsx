@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import UploadBox from "../components/video/UploadBox";
 import VideoSituationSelector from "../components/video/VideoSituationSelector";
@@ -8,9 +8,11 @@ import UploadActions from "../components/video/UploadAction";
 
 import { ROUTES } from "../router/routes";
 import { requestPresignedUrl, startVideoAnalysis } from "../api/video";
+import { useAnalysisStore } from "../store/useAnalysisStore";
 
 const VideoUploadPage = () => {
     const navigate = useNavigate();
+    const { resetAnalysis, startAnalysis } = useAnalysisStore();
 
     const [selectedSituation, setSelectedSituation] = useState<string | null>(null);
     const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
@@ -32,7 +34,14 @@ const VideoUploadPage = () => {
         if (!selectedSituation) return alert("영상 상황을 선택해주세요.");
         if (!duration) return alert("영상 길이를 불러올 수 없습니다.");
 
+        const mainScrollContainer = document.querySelector('main');
+        if (mainScrollContainer) {
+            mainScrollContainer.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
         setStatus("uploading");
+
+        resetAnalysis();
 
         // 1. Presign 요청
         const fileName = `user-video-${Date.now()}.mp4`;
@@ -44,7 +53,6 @@ const VideoUploadPage = () => {
         );
 
         const { uploadUrl, videoId, bucketKey } = res;
-        console.log(uploadUrl);
 
         // 2. 실제 업로드
         const xhr = new XMLHttpRequest();
@@ -64,6 +72,10 @@ const VideoUploadPage = () => {
 
                     // 분석 시작 요청
                     await startVideoAnalysis(videoId);
+
+                    // Store에 현재 분석 중인 Video ID 등록 (폴링 시작)
+                    startAnalysis(videoId);
+
                     // 완료 후 분석 페이지 이동
                     navigate(ROUTES.ANALYSIS_LOADING(videoId));
                 } catch (err) {
@@ -103,6 +115,7 @@ const VideoUploadPage = () => {
                 selectedSituation={selectedSituation}
                 onAnalyzeClick={handleAnalyzeClick}
                 disabled={!selectedVideo || !selectedSituation || status === "uploading"}
+                uploadStatus={status}
             />
         </Container>
     );
