@@ -14,11 +14,13 @@ import { createChallenge } from "../../api/challenge";
 // 최종 Props 타입
 interface ReportStep4Props {
     coaching: CoachingPlanType;
+    challengeStatus: string;
+    onSuccess?: () => void;
 }
 
-const ReportStep4 = ({ coaching }: ReportStep4Props) => {
+const ReportStep4 = ({ coaching, challengeStatus, onSuccess }: ReportStep4Props) => {
     const [open, setOpen] = useState(false);
-    const [accepted, setAccepted] = useState(false);
+    const [justAccepted, setJustAccepted] = useState(false);
 
     const toggle = () => setOpen((prev) => !prev);
     const { reportId } = useParams();
@@ -30,10 +32,52 @@ const ReportStep4 = ({ coaching }: ReportStep4Props) => {
     const start = coaching.challenge.suggested_period.start;
     const end = coaching.challenge.suggested_period.end;
 
+    console.log("Received Challenge Status:", challengeStatus);
+
+    const normalizedStatus = challengeStatus
+        ? String(challengeStatus).toUpperCase()
+        : "NOT_CREATED";
+
+    const currentStatus = justAccepted ? "PROCEEDING" : normalizedStatus;
+
+    const getStatusConfig = (status: string) => {
+        switch (status) {
+            case "PROCEEDING":
+                return {
+                    text: "챌린지가 수락되었습니다!",
+                    isDisabled: true,
+                    textColor: "#5A4A42"
+                };
+            case "FAILED":
+                return {
+                    text: "챌린지를 실패하였습니다",
+                    isDisabled: true,
+                    textColor: "#5A4A42"
+                };
+            case "COMPLETED":
+                return {
+                    text: "챌린지를 성공했습니다!",
+                    isDisabled: true,
+                    textColor: "#5A4A42"
+                };
+            case "NOT_CREATED":
+            default:
+                return {
+                    text: "챌린지 수락하기",
+                    isDisabled: false,
+                };
+        }
+    };
+
+    const statusConfig = getStatusConfig(currentStatus);
+
     const handleAccept = async () => {
         try {
             await createChallenge(Number(reportId));
-            setAccepted(true);
+            setJustAccepted(true);
+            if (onSuccess) {
+                onSuccess();
+            }
         } catch (err) {
             console.error("챌린지 생성 오류:", err);
         }
@@ -84,13 +128,15 @@ const ReportStep4 = ({ coaching }: ReportStep4Props) => {
                         </ol>
                     </AccordionItem>
                     <AcceptButton
-                        variant={accepted ? "disabled" : "primary"}
+                        // 비활성화 상태면 disabled 스타일(회색 배경 등), 아니면 primary
+                        variant={statusConfig.isDisabled ? "disabled" : "primary"}
                         icon={<CheckIcon />}
-                        onClick={accepted ? undefined : handleAccept}
-                        disabled={accepted}
+                        onClick={statusConfig.isDisabled ? undefined : handleAccept}
+                        disabled={statusConfig.isDisabled}
                     >
-                        <span style={{ color: accepted ? "#5A4A42" : "white" }}>
-                            {accepted ? "챌린지가 수락되었습니다!" : "챌린지 수락하기"}
+                        {/* 상태에 따른 텍스트 색상 및 문구 적용 */}
+                        <span style={{ color: statusConfig.textColor }}>
+                            {statusConfig.text}
                         </span>
                     </AcceptButton>
                 </ChallengeBox>
@@ -206,6 +252,10 @@ const AcceptButton = styled(Button)`
     
     svg {
         stroke: white;
+    }
+
+    &:disabled {
+        cursor: default; 
     }
 `
 
