@@ -38,7 +38,14 @@ const ReportStep2 = ({ keyMoments }: KeyMomentsProps) => {
                     </ChatBubble>
 
                     <AIComment>{positive[0].reason}</AIComment>
-                    <Reference>참고: {positive[0].reason}</Reference>
+                    <Reference>
+                        <ReferenceLabel>참고 :</ReferenceLabel>
+                        <ReferenceLow>
+                            {positive[0].reference_descriptions.map((desc, idx) => (
+                                <ReferenceText key={idx}>{desc}</ReferenceText>
+                            ))}
+                        </ReferenceLow>
+                    </Reference>
                 </Moment>
 
                 <Moment>
@@ -62,7 +69,14 @@ const ReportStep2 = ({ keyMoments }: KeyMomentsProps) => {
                     <AIComment>{needs_improvement[0].reason}</AIComment>
 
                     <Suggestion>{`대안 예시:\n${needs_improvement[0].better_response}`}</Suggestion>
-                    <Reference>참고: {needs_improvement[0].reference_description}</Reference>
+                    <Reference>
+                        <ReferenceLabel>참고 :</ReferenceLabel>
+                        <ReferenceLow>
+                            {needs_improvement[0].reference_descriptions.map((desc, idx) => (
+                                <ReferenceText key={idx}>{desc}</ReferenceText>
+                            ))}
+                        </ReferenceLow>
+                    </Reference>
                 </Moment>
 
                 {/* 아코디언 — 패턴 상세 분석 */}
@@ -120,11 +134,12 @@ const Moment = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 11px;
+    gap: 3px;
 `;
 
 const Header = styled.div`
     display: flex;
-    gap: 7px;
+    gap: 8px;
 `;
 
 const Title = styled.h2`
@@ -202,13 +217,32 @@ const AIComment = styled.p`
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
     line-height: 1.3;
+    padding: 0 5px;
 `;
 
-const Reference = styled.p`
-    font-size: 1.1rem;
+const Reference = styled.div`
+    display: flex;
+    gap: 5px;
     margin-top: 8px;
-    color: ${({ theme }) => theme.colors.textSecondary};
 `;
+
+const ReferenceLabel = styled.p`
+    font-size: 1.1rem;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    min-width: 25px;
+    line-height: 1.3;
+`;
+
+const ReferenceLow = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const ReferenceText = styled.p`
+    font-size: 1.1rem;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    line-height: 1.3;
+`
 
 const PatternContainer = styled.div`
     display: flex;

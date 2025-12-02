@@ -5,6 +5,7 @@ import PercentBar from "../components/common/PercentBar";
 import CheckIcon from "../assets/icons/check_circle.svg?react";
 import CancelIcon from "../assets/icons/cancel.svg?react";
 import EllipseIcon from "../assets/icons/ellipse.svg?react";
+import Button from "../components/common/Button";
 
 import { getMyChallenge } from "../api/challenge";
 import type { Challenge } from "../types/challenge";
@@ -67,34 +68,55 @@ const ChallengeListPage = () => {
             </TabContainer>
 
             {/* 로딩 스켈레톤 */}
-            {loading && <div>로딩중...</div>}
+            {loading && <div></div>}
 
             <ListWrapper>
-                {tab === "ACTIVE" &&
-                    challenges.map((c) => (
-                        <ProgressCard key={c.challengeId} onClick={() => goToDetail(c)}>
-                            <Top>
-                                <InfoArea>
-                                    <TitleText>{c.title}</TitleText>
-                                    <Period>{c.period}</Period>
-                                </InfoArea>
-                                <RightArea>
-                                    <StatusBlue>진행 중</StatusBlue>
-                                    <EllipseIcon />
-                                </RightArea>
-                            </Top>
+                {tab === "ACTIVE" && (
+                    activeList.length === 0 ? (
+                        <EmptyState>
+                            <EmptyText>아직 진행 중인 챌린지가 없어요.</EmptyText>
+                            <SubText>아이와의 상호작용을 분석하고 챌린지를 만들어보세요!</SubText>
 
-                            <PercentBar
-                                label="진행 현황"
-                                value={c.progressPercent}
-                                variant="pink"
-                                gap="10px"
-                            />
-                        </ProgressCard>
-                    ))}
+                            <Button
+                                variant="primary"
+                                onClick={() => navigate("/upload")}
+                            >
+                                분석하러 가기
+                            </Button>
+                        </EmptyState>
+                    ) : (
+                        activeList.map((c) => (
+                            <ProgressCard key={c.challengeId} onClick={() => goToDetail(c)}>
+                                <Top>
+                                    <InfoArea>
+                                        <TitleText>{c.title}</TitleText>
+                                        <Period>{c.period}</Period>
+                                    </InfoArea>
+                                    <RightArea>
+                                        <StatusBlue>진행 중</StatusBlue>
+                                        <EllipseIcon />
+                                    </RightArea>
+                                </Top>
+
+                                <PercentBar
+                                    label="진행 현황"
+                                    value={c.progressPercent}
+                                    variant="pink"
+                                    gap="10px"
+                                />
+                            </ProgressCard>
+                        ))
+                    )
+                )}
 
                 {tab === "COMPLETED" &&
-                    challenges.map((c) => {
+                    completedList.length === 0 ? (
+                    <EmptyState>
+                        <EmptyText>아직 완료된 챌린지가 없어요.</EmptyText>
+                        <SubText>도전한 챌린지를 끝까지 실천해보세요!</SubText>
+                    </EmptyState>
+                ) : (
+                    completedList.map((c) => {
                         const isSuccess = c.progressPercent >= 100;
 
                         return (
@@ -119,7 +141,8 @@ const ChallengeListPage = () => {
                                 </RightArea>
                             </DoneCard>
                         );
-                    })}
+                    })
+                )}
             </ListWrapper>
         </Wrapper>
     );
@@ -261,4 +284,32 @@ const FailText = styled.p`
     color: #B03A3A;
     font-size: 2rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
+`;
+
+const EmptyState = styled.div`
+    width: 100%;
+    padding: 80px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    > Button {
+        width: 70%;
+    }
+`;
+
+const EmptyText = styled.p`
+    font-size: 2rem;
+    font-weight: ${({ theme }) => theme.typography.weights.bold};
+    color: ${({ theme }) => theme.colors.textPrimary};
+`;
+
+const SubText = styled.p`
+    font-size: 1.6rem;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    max-width: 260px;
+    line-height: 1.4;
+    word-break: keep-all;
 `;

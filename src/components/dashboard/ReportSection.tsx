@@ -58,7 +58,7 @@ const ReportSection = ({ growthReport }: ReportSectionProps) => {
                         {hasQi ? (
                             <QIScoreChart data={qiScoreHistory} />
                         ) : (
-                            <EmptyText>아직 QI 점수 기록이 없습니다.</EmptyText>
+                            <EmptyText>{qiText}</EmptyText>
                         )}
                     </ChartArea>
                 </SubCard>
@@ -69,7 +69,7 @@ const ReportSection = ({ growthReport }: ReportSectionProps) => {
                         {hasPiNdi ? (
                             <PINDIChart data={piNdiHistory} />
                         ) : (
-                            <EmptyText>아직 PI/NDI 기록이 없습니다.</EmptyText>
+                            <EmptyText>{piNdiText}</EmptyText>
                         )}
                     </ChartArea>
                 </SubCard>
@@ -109,8 +109,11 @@ const ChartArea = styled.div`
 `;
 
 const EmptyText = styled.p`
-    font-size: 12px;
+    font-size: 1.3rem;
     color: ${({ theme }) => theme.colors.gray[600]};
     text-align: center;
-    padding: 16px 0;
+    padding: 16px 30px;
+    word-break: keep-all;
+    white-space: normal;
+    line-height: 1.3;
 `;

@@ -18,6 +18,8 @@ interface ReportStep4Props {
 
 const ReportStep4 = ({ coaching }: ReportStep4Props) => {
     const [open, setOpen] = useState(false);
+    const [accepted, setAccepted] = useState(false);
+
     const toggle = () => setOpen((prev) => !prev);
     const { reportId } = useParams();
 
@@ -31,6 +33,7 @@ const ReportStep4 = ({ coaching }: ReportStep4Props) => {
     const handleAccept = async () => {
         try {
             await createChallenge(Number(reportId));
+            setAccepted(true);
         } catch (err) {
             console.error("챌린지 생성 오류:", err);
         }
@@ -81,17 +84,20 @@ const ReportStep4 = ({ coaching }: ReportStep4Props) => {
                         </ol>
                     </AccordionItem>
                     <AcceptButton
-                        variant="primary"
+                        variant={accepted ? "disabled" : "primary"}
                         icon={<CheckIcon />}
-                        onClick={handleAccept}
+                        onClick={accepted ? undefined : handleAccept}
+                        disabled={accepted}
                     >
-                        챌린지 수락하기
+                        <span style={{ color: accepted ? "#5A4A42" : "white" }}>
+                            {accepted ? "챌린지가 수락되었습니다!" : "챌린지 수락하기"}
+                        </span>
                     </AcceptButton>
                 </ChallengeBox>
 
                 <ReasonBox>
                     <ReasonTitle>이번 챌린지가 제안된 이유</ReasonTitle>
-                    <ReasonText>{coaching.rationale}</ReasonText>
+                    <ReasonText>{coaching.challenge.rationale}</ReasonText>
                 </ReasonBox>
             </SectionCard>
         </Wrapper>
@@ -130,7 +136,7 @@ const AnalysisTitle = styled.h3`
 const AnalysisText = styled.p`
     font-size: 1.3rem;
     color: ${({ theme }) => theme.colors.navy};
-    line-height: 1.3;
+    line-height: 1.4;
 `;
 
 const ChallengeBox = styled.div`
@@ -222,5 +228,5 @@ const ReasonTitle = styled.h3`
 const ReasonText = styled.p`
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
-    line-height: 1.3;
+    line-height: 1.4;
 `;

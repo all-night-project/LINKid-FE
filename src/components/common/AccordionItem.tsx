@@ -162,6 +162,7 @@ const AnswerWrapper = styled.div<{ $open: boolean; $variant: string }>`
         list-style-type: decimal;
         padding-left: 18px;
         margin: 6px 0;
+        line-height: 1.3;
     }
 
 

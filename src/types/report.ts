@@ -17,7 +17,7 @@ export interface PositiveMoment {
     dialogue: DialogueLine[];
     reason: string;
     pattern_hint: string;
-    reference_description: string;
+    reference_descriptions: string[];
 }
 
 export interface NeedsImprovementMoment {
@@ -26,7 +26,7 @@ export interface NeedsImprovementMoment {
     better_response: string;
     pattern_hint: string;
     expert_references: any[];  // 배열이 비어 있으므로 any[]로 두거나 타입 정의 가능
-    reference_description: string;
+    reference_descriptions: string[];
 }
 
 export interface PatternExample {
@@ -76,12 +76,12 @@ export interface ChallengeType {
         end: string;
     };
     actions: string[];
+    rationale: string | null;
 }
 
 export interface CoachingPlanType {
     summary: string;
     challenge: ChallengeType;
-    rationale: string | null;
 }
 
 // Step5
@@ -98,18 +98,24 @@ export interface MetricItem {
     before: number | null;
     after: number | null;
     diff?: number | null;
+    key: string | null;
+    value: string | null;
     value_type: "ratio" | string;
 }
 
 export interface ChallengeEvaluation {
-    description: string;
-    instances: ChallengeInstance[];
     challenge_name: string;
-    action_id: number;
-    detected_count: number;
+    actions: ActionEvaluation[];
 }
 
 export interface ChallengeInstance {
     timestamp: string;
     summary: string;
+}
+
+export interface ActionEvaluation {
+    description: string;
+    instances: ChallengeInstance[];
+    action_id: number;
+    detected_count: number;
 }

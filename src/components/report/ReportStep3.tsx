@@ -26,7 +26,7 @@ const ReportStep3 = ({ styleAnalysis }: ReportStep3Props) => {
                         <PercentBar
                             key={index}
                             label={item.name}
-                            value={item.ratio * 100}
+                            value={Math.round(item.ratio * 100)}
                             variant={variantMap[index] ?? "navy"}
                         />
                     ))}
@@ -39,7 +39,7 @@ const ReportStep3 = ({ styleAnalysis }: ReportStep3Props) => {
                         <PercentBar
                             key={index}
                             label={item.name}
-                            value={item.ratio * 100}
+                            value={Math.round(item.ratio * 100)}
                             variant={variantMap[index] ?? "navy"}
                         />
                     ))}

@@ -83,58 +83,76 @@ const ReportStep5 = ({ growthReport, showChallengeSection = true }: ReportStep5P
                         {challenge_evaluations && challenge_evaluations.length > 0 ? (
                             <>
                                 <ChallengeList>
-                                    {challenge_evaluations.map((item, index) => {
-                                        const isCompleted = completedActions.includes(item.action_id);
-                                        return (
-                                            <Challenge key={index}>
-                                                <ChallengeWrapper>
-                                                    <ChallengeTitle>
-                                                        <ChallengeName>
-                                                            '{item.challenge_name}' {item.detected_count}회
-                                                        </ChallengeName>
-                                                        <ChallengeDesc>{item.description}</ChallengeDesc>
-                                                    </ChallengeTitle>
-                                                    {isCompleted ? (
-                                                        <CompletedBadge>완료됨</CompletedBadge>
-                                                    ) : (
-                                                        <Button
-                                                            variant="primary"
-                                                            onClick={() => openModalFor(item.action_id)}
-                                                        >
-                                                            완료하기
-                                                        </Button>
-                                                    )}
-                                                </ChallengeWrapper>
-                                                <AccordionItem
-                                                    question="어디에서 이 행동이 나타났나요?"
-                                                    variant="pattern"
-                                                    isOpen={openAccordionIndex === index}
-                                                    onToggle={() =>
-                                                        setOpenAccordionIndex((prev) => (prev === index ? null : index))
-                                                    }
-                                                >
-                                                    <Content>
-                                                        {item.instances.map((instance, idx) => (
-                                                            <Row key={idx}>
-                                                                <Time>{instance.timestamp}초</Time>
-                                                                <Summary>{instance.summary}</Summary>
-                                                            </Row>
-                                                        ))}
-                                                    </Content>
-                                                </AccordionItem>
-                                            </Challenge>
-                                        );
-                                    })}
+                                    {challenge_evaluations.map((evaluation, evalIndex) =>
+
+                                        evaluation.actions.map((action) => {
+                                            const isCompleted = completedActions.includes(action.action_id);
+                                            const key = action.action_id;
+
+                                            return (
+                                                <Challenge key={key}>
+                                                    <ChallengeWrapper>
+
+                                                        {/* ---------- 카드 헤더 ---------- */}
+                                                        <ChallengeTitle>
+                                                            <ChallengeName>
+                                                                ‘{evaluation.challenge_name}’ {action.detected_count}회
+                                                            </ChallengeName>
+                                                            <ChallengeDesc>{action.description}</ChallengeDesc>
+                                                        </ChallengeTitle>
+
+                                                        {/* 완료 여부 */}
+                                                        {isCompleted ? (
+                                                            <CompletedBadge>완료됨</CompletedBadge>
+                                                        ) : (
+                                                            <Button
+                                                                variant="primary"
+                                                                onClick={() => openModalFor(action.action_id)}
+                                                            >
+                                                                완료하기
+                                                            </Button>
+                                                        )}
+                                                    </ChallengeWrapper>
+
+                                                    {/* ---------- 아코디언 ---------- */}
+                                                    <AccordionItem
+                                                        question="어디에서 이 행동이 나타났나요?"
+                                                        variant="pattern"
+                                                        isOpen={openAccordionIndex === key}
+                                                        onToggle={() =>
+                                                            setOpenAccordionIndex(prev =>
+                                                                prev === key ? null : key
+                                                            )
+                                                        }
+                                                    >
+                                                        <Content>
+                                                            {action.instances.map((instance, idx) => (
+                                                                <Row key={idx}>
+                                                                    <Time>{instance.timestamp}</Time>
+                                                                    <Summary>{instance.summary}</Summary>
+                                                                </Row>
+                                                            ))}
+                                                        </Content>
+                                                    </AccordionItem>
+
+                                                </Challenge>
+                                            );
+                                        })
+
+                                    )}
                                 </ChallengeList>
+
+                                {/* 완료 모달 */}
                                 <CompleteModal
                                     open={openModal}
                                     actionId={selectedActionId ?? 0}
                                     onClose={() => setOpenModal(false)}
                                     onCompleted={(id) => {
-                                        setCompletedActions((prev) => [...prev, id]);
+                                        setCompletedActions(prev => [...prev, id]);
                                         setOpenModal(false);
                                     }}
                                 />
+
                             </>
                         ) : (
                             <EmptyMsg>
