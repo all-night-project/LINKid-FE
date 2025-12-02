@@ -106,7 +106,7 @@ const SubTitle = styled.p`
 `;
 
 const Description = styled.p`
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
     line-height: 1.3;
 `;
