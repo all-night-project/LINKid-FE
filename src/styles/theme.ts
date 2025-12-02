@@ -28,6 +28,7 @@ export const theme = {
         textPrimary: "#5A4A42",
         textSecondary: "#9C938D",
         white: "#FFFFFF",
+        navy: "#312E81",
     },
 
     typography: {

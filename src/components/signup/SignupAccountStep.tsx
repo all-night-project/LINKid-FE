@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/common/Button";
-import Input from "../../components/common/Input";
+import Button from "../common/Button";
+import Input from "../common/Input";
 import AccountIcon from "../../assets/icons/accounts.svg?react";
 import CounterIcon1 from "../../assets/icons/counter_1.svg?react";
 import CounterIcon2 from "../../assets/icons/counter_2.svg?react";
-import { ROUTES } from "../../router/routes";
+import { ROUTES } from "../../router/routes"
+import { checkDuplicateId } from "../../api/auth";
 
 const NextButton = styled(Button)`
-    weight: 100%;
+    width: 100%;
     height: 55px;
     border-radius: ${({ theme }) => theme.radius.md};
     font-size: 20px;
@@ -32,7 +33,7 @@ const SignupAccountStep = ({ formData, setFormData, nextStep }: any) => {
         setErrors({ ...errors, [name]: "" });
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         const newErrors: any = {};
 
         if (!formData.id) newErrors.id = "아이디를 다시 입력해주세요.";
@@ -45,8 +46,27 @@ const SignupAccountStep = ({ formData, setFormData, nextStep }: any) => {
 
         setErrors(newErrors);
 
-        if (Object.keys(newErrors).length === 0) {
+        if (Object.keys(newErrors).length > 0) return;
+
+        // 아이디 중복 체크 호출
+        try {
+            const res = await checkDuplicateId(formData.id);
+
+            if (!res.success || !res.data?.available) {
+                setErrors((prev: any) => ({
+                    ...prev,
+                    id: res.message || "이미 존재하는 아이디입니다."
+                }));
+                return;
+            }
+
             nextStep();
+        } catch (err) {
+            console.error(err);
+            setErrors((prev: any) => ({
+                ...prev,
+                id: "아이디 중복 확인 중 오류가 발생했습니다."
+            }));
         }
     };
 
@@ -134,7 +154,7 @@ const StepIndicator = styled.div`
 `;
 
 const Title = styled.p`
-    font-size: 22px;
+    font-size: 2.2rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textPrimary};
 `;
@@ -153,7 +173,7 @@ const StepLine = styled.div`
 `;
 
 const StepLabel = styled.span`
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textSecondary};
     margin-left: 5px;
@@ -170,7 +190,7 @@ const LoginText = styled.p`
     display: flex;
     justify-content: center;
     margin-top: 28px;
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 

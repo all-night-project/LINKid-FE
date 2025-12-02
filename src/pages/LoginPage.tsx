@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "../../components/common/Input";
-import Button from "../../components/common/Button";
-import { ROUTES } from "../../router/routes";
+import Input from "../components/common/Input";
+import Button from "../components/common/Button";
+import { ROUTES } from "../router/routes";
+
+import { login } from "../api/auth";
 
 const LoginButton = styled(Button)`
     width: 100%;
@@ -18,7 +20,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!id) {
@@ -30,9 +32,19 @@ const LoginPage = () => {
             return;
         }
 
-        console.log("로그인 요청: ", { id, password });
-        setError("");
-        navigate(ROUTES.DASHBOARD);
+        try {
+            console.log("🔥 로그인 요청:", { id, password });
+
+            const data = await login(id, password); // API 호출
+            console.log("✅ 로그인 성공:", data);
+
+            localStorage.setItem("accessToken", data.data.accessToken);
+
+            setError("");
+            navigate(ROUTES.DASHBOARD);
+        } catch (err: any) {
+            console.log(err);
+        }
     };
 
     return (
@@ -51,6 +63,7 @@ const LoginPage = () => {
 
                     <Input
                         label="비밀번호"
+                        type="password"
                         placeholder="비밀번호를 입력하세요"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -81,7 +94,7 @@ const Wrapper = styled.div`
 `;
 
 const Logo = styled.h1`
-    font-size: 54px;
+    font-size: 5.4rem;
     margin-left: 13px;
 `;
 
@@ -108,7 +121,7 @@ const SignupText = styled.p`
     display: flex;
     justify-content: center;
     margin-top: 28px;
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.5rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
 `;
 

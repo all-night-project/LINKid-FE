@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../../router/routes";
-import { ReactComponent as BackIcon } from "../../assets/icons/back-arrow.svg";
+import BackIcon from "../../assets/icons/back-arrow.svg?react";
 
 interface HeaderProps {
     title?: String;
@@ -50,7 +50,7 @@ const Header = ({ title, showBack }: HeaderProps) => {
             ) : (
                 <Spacer />
             )}
-            <Title>{displayTitle}</Title>
+            <Title $isMain={displayTitle === "LINKid"}>{displayTitle}</Title>
             <Spacer />
         </Wrapper>
     );
@@ -60,10 +60,31 @@ export default Header;
 
 const Wrapper = styled.header`
     display: flex;
+    height: 100%;
+    padding: 18px;
+    align-items: center;
+    background-color: white;
 `;
 
-const BackButton = styled.div``
-
+const BackButton = styled.div`
+    margin-right: 15px;
+    margin-top: 3px;
+    cursor: pointer;
+`
 const Spacer = styled.div``
 
-const Title = styled.h1``
+const Title = styled.h1<{ $isMain?: boolean }>`
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+  color: ${({ theme }) => theme.colors.textPrimary};
+
+  ${({ $isMain, theme }) =>
+        $isMain
+            ? `
+        font-size: 3.2rem;
+        font-family: ${theme.typography.fontFamily};
+      `
+            : `
+        font-size: 2.2rem;
+        font-family: ${theme.typography.fontFamily};
+      `}
+`;

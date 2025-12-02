@@ -2,13 +2,13 @@ export const ROUTES = {
     LOGIN: "/",
     SIGNUP: "/signup",
     GUIDE: "/guide",
-    DASHBOARD: "/",
+    DASHBOARD: "/dashboard",
     UPLOAD: "/upload",
-    ANALYSIS_LOADING: '/analysis/loading',
-    REPORT_STEP: (id: string) => `/report/${id}/step`,
+    ANALYSIS_LOADING: (videoId: string) => `/analysis/${videoId}`,
+    REPORT_STEP: (id: string, step: number) => `/report/${id}/step/${step}`,
     REPORT: (id: string) => `/report/${id}`,
     REPORT_LIST: "/report/list",
     CHALLENGE_LIST: "/challenge",
     CHALLENGE_DETAIL: (id: string) => `/challenge/${id}`,
     MYPAGE: "/mypage",
-};
+} as const;

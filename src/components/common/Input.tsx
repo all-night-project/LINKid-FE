@@ -10,7 +10,7 @@ const Input = ({ label, error, ...props }: InputProps) => {
     return (
         <Wrapper>
             {label && <Label>{label}</Label>}
-            <StyledInput hasError={!!error} {...props} />
+            <StyledInput $hasError={!!error} {...props} />
             {error && <ErrorText>{error}</ErrorText>}
         </Wrapper>
     );
@@ -25,18 +25,18 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.label`
-    font-size: ${({ theme }) => theme.typography.sizes.md};
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: ${({ theme }) => theme.typography.weights.semibold};
     color: ${({ theme }) => theme.colors.textPrimary};
     margin-left: 9px;
 `
 
-const StyledInput = styled.input<{ hasError: boolean }>`
+const StyledInput = styled.input<{ $hasError: boolean }>`
     width: 100%;
     height: 45px;
     padding: 14px 16px;
     border-radius: ${({ theme }) => theme.radius.md};
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     border: 1px solid ${({ theme }) => theme.colors.primary[500]};
     color: ${({ theme }) => theme.colors.textPrimary};
     background-color: white;
@@ -45,8 +45,13 @@ const StyledInput = styled.input<{ hasError: boolean }>`
         color: ${({ theme }) => theme.colors.textSecondary};
     }
 
-    ${({ hasError, theme }) =>
-        hasError &&
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(244, 194, 194, 0.45);
+    }
+
+    ${({ $hasError, theme }) =>
+        $hasError &&
         css`
             border-color: ${theme.colors.primary[600]};
         `
@@ -54,6 +59,7 @@ const StyledInput = styled.input<{ hasError: boolean }>`
 `;
 
 const ErrorText = styled.span`
-    font-size: ${({ theme }) => theme.typography.sizes.sm};
+    font-size: 1.4rem;
     color: ${({ theme }) => theme.colors.primary[600]};
+    margin-left: 9px;
 `;
