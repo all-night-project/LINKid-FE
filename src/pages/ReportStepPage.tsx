@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import styled from "styled-components";
 import Button from "../components/common/Button";
 import StepHeader from "../components/report/StepHeader";
@@ -20,9 +21,23 @@ const ReportStepPage = () => {
     }
 
     // report 정보 가져옴
-    const { report } = useReportStore();
+    const { report, fetchReport } = useReportStore();
 
     const stepNumber = Number(step);
+
+    useEffect(() => {
+        if (reportId) {
+            fetchReport(Number(reportId));
+        }
+    }, [reportId, fetchReport]);
+
+    const handleRefreshData = () => {
+        console.log("데이터 갱신 요청");
+        if (reportId) {
+            console.log("챌린지 상태 갱신을 위해 리포트를 다시 불러옵니다.");
+            fetchReport(Number(reportId));
+        }
+    };
 
     if (!(stepNumber <= 5) || !reportId) {
         return <div>잘못된 접근입니다.</div>;
@@ -30,12 +45,14 @@ const ReportStepPage = () => {
 
     if (!report) return <Message>리포트를 찾을 수 없습니다.</Message>;
 
-    const summaryDiagnosis = report.summary_diagnosis;
-    const keyMoments = report.key_moment_capture.key_moments;
-    const styleAnalysis = report.style_analysis;
-    const coaching = report.coaching_and_plan.coaching_plan;
-    const growthReport = report.growth_report;
+    const content = report.content || report;
 
+    const summaryDiagnosis = content?.summary_diagnosis;
+    const keyMoments = content?.key_moment_capture.key_moments;
+    const styleAnalysis = content?.style_analysis;
+    const coaching = content?.coaching_and_plan.coaching_plan;
+    const growthReport = content?.growth_report;
+    const challengeStatus = report.challengeStatus;
 
     const handleNextStep = () => {
         navigate(`/report/${reportId}/step/${stepNumber + 1}`);
@@ -46,13 +63,19 @@ const ReportStepPage = () => {
             <StepHeader
                 step={stepNumber}
                 parentName={report.username}
-                stageName={report.summary_diagnosis?.stage_name ?? ""}
+                stageName={content?.summary_diagnosis?.stage_name ?? ""}
             />
             <StepArea>
                 {stepNumber === 1 && <ReportStep1 dashboard={summaryDiagnosis} />}
                 {stepNumber === 2 && <ReportStep2 keyMoments={keyMoments} />}
                 {stepNumber === 3 && <ReportStep3 styleAnalysis={styleAnalysis} />}
-                {stepNumber === 4 && <ReportStep4 coaching={coaching} />}
+                {stepNumber === 4 && (
+                    <ReportStep4
+                        coaching={coaching}
+                        challengeStatus={challengeStatus}
+                        onSuccess={handleRefreshData}
+                    />
+                )}
                 {stepNumber === 5 && <ReportStep5 growthReport={growthReport} />}
             </StepArea>
 

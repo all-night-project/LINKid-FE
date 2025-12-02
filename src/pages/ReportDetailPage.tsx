@@ -7,35 +7,30 @@ import ReportStep3 from "../components/report/ReportStep3";
 import ReportStep4 from "../components/report/ReportStep4";
 import ReportStep5 from "../components/report/ReportStep5";
 
-import { getReportDetail } from "../api/report";
+import { useReportStore } from "../store/useReportStore";
 
 const ReportDetailPage = () => {
     const { reportId } = useParams<{ reportId: string }>();
 
-    if (!reportId) return <Message>잘못된 접근입니다.</Message>;
-
-    const [report, setReport] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const { report, fetchReport, clearReport } = useReportStore();
 
     useEffect(() => {
-        const fetchDetail = async () => {
-            try {
-                const res = await getReportDetail(Number(reportId));
-                setReport(res);
-            } catch (err) {
-                console.error("리포트 조회 실패:", err);
-            } finally {
-                setLoading(false);
+        const loadData = async () => {
+            if (reportId && !isNaN(Number(reportId))) {
+                clearReport();
+                await fetchReport(Number(reportId));
             }
         };
-        fetchDetail();
-    }, [reportId]);
 
-    const summaryDiagnosis = report?.content?.summary_diagnosis;
-    const keyMoments = report?.content?.key_moment_capture.key_moments;
-    const styleAnalysis = report?.content?.style_analysis;
-    const coaching = report?.content?.coaching_and_plan.coaching_plan;
-    const growthReport = report?.content?.growth_report;
+        loadData();
+
+    }, [reportId, fetchReport, clearReport]);
+
+    const handleRefreshData = () => {
+        if (reportId) {
+            fetchReport(Number(reportId));
+        }
+    };
 
     // 현재 활성 탭
     const [activeTab, setActiveTab] = useState<"highlight" | "detail" | "coaching">(
@@ -61,8 +56,6 @@ const ReportDetailPage = () => {
     ] as const;
 
     useEffect(() => {
-        if (loading || !report) return;
-
         const initTimer = setTimeout(() => {
             if (!section2Ref.current || !section3Ref.current || !section4Ref.current) {
                 return;
@@ -132,11 +125,20 @@ const ReportDetailPage = () => {
         }, 300);
 
         return () => clearTimeout(initTimer);
-    }, [loading, report]);
+    }, [report]);
 
-
-    if (loading) return <Message>로딩 중…</Message>;
+    if (!reportId) return <Message>잘못된 접근입니다.</Message>;
     if (!report) return <Message>리포트가 없습니다.</Message>;
+
+    const content = report.content || report;
+
+    const summaryDiagnosis = content?.summary_diagnosis;
+    const keyMoments = content?.key_moment_capture.key_moments;
+    const styleAnalysis = content?.style_analysis;
+    const coaching = content?.coaching_and_plan.coaching_plan;
+    const growthReport = content?.growth_report;
+
+    const challengeStatus = report.challengeStatus || content?.challengeStatus;
 
     return (
         <Wrapper>
@@ -180,7 +182,7 @@ const ReportDetailPage = () => {
                     <ReportStep3 styleAnalysis={styleAnalysis} />
                 </Section>
                 <Section ref={section4Ref} data-section="coaching">
-                    <ReportStep4 coaching={coaching} />
+                    <ReportStep4 coaching={coaching} challengeStatus={challengeStatus} onSuccess={handleRefreshData} />
                 </Section>
                 <Section>
                     <ReportStep5 growthReport={growthReport} showChallengeSection={false} />
