@@ -18,9 +18,14 @@ export const formatSeconds = (seconds: number): string => {
 };
 
 const ReportListItem = ({ report }: ReportItemProps) => {
-    const dateObj = new Date(report.createdAt);
-    const date = dateObj.toISOString().split("T")[0]; // YYYY-MM-DD
-    const time = dateObj.toTimeString().slice(0, 5);
+    // createdAt 문자열을 Date로 변환
+    const utcDate = new Date(report.createdAt);
+    // 한국 시간(KST, UTC+9) 보정
+    const kstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000);
+    // YYYY-MM-DD
+    const date = kstDate.toISOString().split("T")[0];
+    // HH:mm
+    const time = kstDate.toTimeString().slice(0, 5);
 
     const duration = formatSeconds(report.durationSeconds);
 

@@ -4,14 +4,28 @@ interface PINDIChartProps {
     data: PiNdiItem[];
 }
 
+const MAX_SLOTS = 5;
+
 const PINDIChart = ({ data }: PINDIChartProps) => {
-    const maxValue =
-        data.length > 0
-            ? Math.max(
-                ...data.map((d) => Math.max(d.pi, d.ndi)),
-                10
-            )
-            : 10;
+    // ---- (1) 데이터 슬롯 채우기: 중앙 정렬 ---- //
+    const fillSlots = (items: PiNdiItem[]) => {
+        const result = Array(MAX_SLOTS).fill(null) as (PiNdiItem | null)[];
+        const offset = Math.floor((MAX_SLOTS - items.length) / 2);
+
+        items.forEach((item, i) => {
+            result[offset + i] = item;
+        });
+
+        return result;
+    };
+
+    const filledData = fillSlots(data);
+
+    // ---- (2) chart basic values ---- //
+    const maxValue = Math.max(
+        ...data.map((d) => Math.max(d.pi, d.ndi)),
+        10
+    );
 
     const chartHeight = 130;
     const chartWidth = 290;
@@ -19,11 +33,7 @@ const PINDIChart = ({ data }: PINDIChartProps) => {
     const paddingTop = 10;
     const paddingBottom = 15;
 
-    const groupWidth =
-        data.length > 0
-            ? (chartWidth - paddingX * 2) / (data.length - 1)
-            : 0;
-
+    const groupWidth = (chartWidth - paddingX * 2) / (MAX_SLOTS - 1);
     const barWidth = groupWidth * 0.25;
     const gapBetweenBars = groupWidth * 0.1;
 
@@ -33,8 +43,24 @@ const PINDIChart = ({ data }: PINDIChartProps) => {
             height={chartHeight + 20}
             viewBox={`0 0 ${chartWidth} ${chartHeight + 14}`}
         >
-            {data.map((item, index) => {
+            {filledData.map((item, index) => {
                 const baseX = paddingX + groupWidth * index;
+
+                if (!item) {
+                    return (
+                        <g key={index}>
+                            <text
+                                x={baseX}
+                                y={chartHeight + 10}
+                                fontSize="13"
+                                textAnchor="middle"
+                                fill="#9C938D"
+                            >
+                                {/* 빈 칸은 label 없음 */}
+                            </text>
+                        </g>
+                    );
+                }
 
                 const usableHeight =
                     chartHeight - paddingTop - paddingBottom;
@@ -55,7 +81,7 @@ const PINDIChart = ({ data }: PINDIChartProps) => {
 
                 return (
                     <g key={index}>
-                        {/* PI 막대 (연두) */}
+                        {/* PI bar */}
                         <rect
                             x={piX}
                             y={piY}
@@ -64,7 +90,8 @@ const PINDIChart = ({ data }: PINDIChartProps) => {
                             rx={6}
                             fill="#C8E6C9"
                         />
-                        {/* NDI 막대 (핑크) */}
+
+                        {/* NDI bar */}
                         <rect
                             x={ndiX}
                             y={ndiY}
@@ -74,7 +101,7 @@ const PINDIChart = ({ data }: PINDIChartProps) => {
                             fill="#F4C2C2"
                         />
 
-                        {/* X축 날짜 */}
+                        {/* Date label */}
                         <text
                             x={baseX}
                             y={chartHeight + 10}
