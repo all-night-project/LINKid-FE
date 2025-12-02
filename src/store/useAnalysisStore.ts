@@ -5,17 +5,13 @@ interface AnalysisState {
     statusMessage: string | null;
     isDone: boolean;
     reportId: number | null;
-
-    // [추가] 현재 분석 중인 비디오 ID (페이지 이동해도 기억하기 위함)
     targetVideoId: number | null;
-
     updateStatus: (status: string, isDone: boolean, reportId: number | null, msg: string | null) => void;
-
-    // [추가] 분석 시작 시 ID 설정
     startAnalysis: (videoId: number) => void;
-
-    // [추가] 리포트 확인 후 상태 초기화
     resetAnalysis: () => void;
+
+    progress: number | null;
+    setProgress: (progress: number) => void;
 }
 
 export const useAnalysisStore = create<AnalysisState>((set) => ({
@@ -24,6 +20,8 @@ export const useAnalysisStore = create<AnalysisState>((set) => ({
     isDone: false,
     reportId: null,
     targetVideoId: null,
+    progress: 0,
+    setProgress: (progress) => set({ progress }),
 
     updateStatus: (status, isDone, reportId, msg) => set({ status, isDone, reportId, statusMessage: msg }),
 
@@ -38,6 +36,7 @@ export const useAnalysisStore = create<AnalysisState>((set) => ({
         status: "idle",
         isDone: false,
         reportId: null,
-        statusMessage: null
+        statusMessage: null,
+        progress: 0
     }),
 }));

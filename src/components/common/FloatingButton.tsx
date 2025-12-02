@@ -11,7 +11,7 @@ const FloatingAnalysisButton = () => {
     const location = useLocation();
 
     // Store에서 상태 가져오기
-    const { targetVideoId, isDone, resetAnalysis, reportId } = useAnalysisStore();
+    const { targetVideoId, isDone, resetAnalysis, reportId, progress } = useAnalysisStore();
 
     // 폴링 실행 (전역적으로 상태 감시)
     useVideoStatusPolling();
@@ -19,9 +19,12 @@ const FloatingAnalysisButton = () => {
     // 2. 버튼을 보여주지 말아야 할 조건 체크
     // 분석 중인 비디오가 없거나(idle), 현재 분석 페이지에 있거나, 리포트 페이지에 있다면 숨김
     const isAnalysisPage = location.pathname.includes('/analysis');
+    const isReportStepPage = location.pathname.includes('/step');
 
-    if (isAnalysisPage) return null; // 분석 페이지에서는 본문 내용이 있으므로 숨김
+    if (isAnalysisPage || isReportStepPage) return null;
     if (!targetVideoId && !isDone) return null;  // 분석 중이거나 완료된 상태라면 버튼이 보임.
+
+    const displayProgress = progress ?? 0;
 
     const handleClick = () => {
         if (isDone && reportId) {
@@ -40,7 +43,13 @@ const FloatingAnalysisButton = () => {
                 <CheckIcon>✓</CheckIcon>
             ) : (
                 // 분석 중: 스피너 링
-                <SpinnerRing />
+                <>
+                    <SpinnerRing />
+                    <ProgressText>
+                        {displayProgress}
+                        <span>%</span>
+                    </ProgressText>
+                </>
             )}
         </FloatingWrapper>
     );
@@ -63,9 +72,9 @@ const popIn = keyframes`
 const FloatingWrapper = styled.div<{ $done: boolean }>`
     position: absolute; 
     right: 20px; 
-    bottom: 90px; 
-    width: 56px; 
-    height: 56px;
+    bottom: 110px; 
+    width: 60px; 
+    height: 60px;
 
     background: ${({ $done, theme }) => ($done ? theme.colors.primary[500] : "white")};
     border-radius: 50%;
@@ -88,23 +97,38 @@ const FloatingWrapper = styled.div<{ $done: boolean }>`
     }
 `;
 
-// 로딩 스피너 (도넛 모양)
 const SpinnerRing = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     border-radius: 50%;
     
-    // 테두리 두께 및 기본 색상 (연한 회색)
-    border: 4px solid #f3f3f3;
+    border: 5px solid #f0f0f0;
+    border-top: 5px solid ${({ theme }) => theme.colors.primary[500]};
     
-    // 회전할 부분의 색상 (테마의 Primary 색상)
-    border-top: 4px solid ${({ theme }) => theme.colors.primary[500]};
-    
-    // 애니메이션
     animation: ${spin} 1s linear infinite;
-    
-    // 버튼 크기에 딱 맞게 조절 (border가 박스 밖으로 안 나가게 box-sizing 처리 혹은 크기 조정)
     box-sizing: border-box; 
+`;
+
+const ProgressText = styled.div`
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    
+    font-size: 2rem; 
+    font-weight: bold;
+    color: ${({ theme }) => theme.colors.primary[500]};
+
+    span {
+        font-size: 1rem;
+        margin-top: 2px;
+        font-weight: normal;
+    }
 `;
 
 // 완료 체크 아이콘

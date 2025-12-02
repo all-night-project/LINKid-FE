@@ -45,7 +45,9 @@ const AnalysisPage = () => {
     const navigate = useNavigate();
     const { videoId } = useParams<{ videoId: string }>();
 
-    const { status, statusMessage, isDone, reportId } = useAnalysisStore();
+    const { status, statusMessage, isDone, reportId, progress } = useAnalysisStore();
+
+    const displayProgress = progress ?? 0;
 
     // 분석 완료되면 report/{reportId}/step/1으로 이동
     useEffect(() => {
@@ -71,7 +73,12 @@ const AnalysisPage = () => {
 
     return (
         <Container>
-            <Spinner size={80} color="#F4C2C2" borderWidth={10} />
+            <SpinnerWrapper>
+                <Spinner size={80} color="#F4C2C2" borderWidth={10} />
+                <ProgressOverlay>
+                    {displayProgress}<span>%</span>
+                </ProgressOverlay>
+            </SpinnerWrapper>
             <StatusText>{statusMessage}</StatusText>
             <SubText>잠시 다른 페이지를 다녀오셔도 분석은 계속됩니다.</SubText>
             <AnalyzeInfoCarousel items={infoItems} />
@@ -88,6 +95,38 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+`;
+
+const SpinnerWrapper = styled.div`
+    position: relative;
+    width: 80px;  /* Spinner size와 동일하게 */
+    height: 80px; /* Spinner size와 동일하게 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px; /* 기존 Spinner의 margin 처리 */
+`;
+
+const ProgressOverlay = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: 2.3rem; 
+    font-weight: bold;
+    color: ${({ theme }) => theme.colors.textPrimary}; // 테마색 또는 스피너 색상
+    line-height: 1;
+
+    span {
+        font-size: 1.5rem;
+        margin-top: 2px;
+        font-weight: normal;
+    }
 `;
 
 const StatusText = styled.p`

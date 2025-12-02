@@ -6,7 +6,7 @@ import { useAnalysisStore } from "../store/useAnalysisStore";
 export const useVideoStatusPolling = () => {
     const { setReport } = useReportStore();
     // store에서 targetVideoId를 가져옴
-    const { targetVideoId, updateStatus, isDone } = useAnalysisStore();
+    const { targetVideoId, updateStatus, isDone, setProgress } = useAnalysisStore();
 
     useEffect(() => {
         // 분석할 비디오가 없거나 이미 완료되었으면 폴링하지 않음
@@ -18,6 +18,10 @@ export const useVideoStatusPolling = () => {
                 const data = res.data;
 
                 const completed = data.status === "COMPLETED";
+
+                const currentProgress = completed ? 100 : (data.progress ?? 0);
+
+                setProgress(currentProgress);
 
                 updateStatus(
                     data.status,
@@ -36,5 +40,5 @@ export const useVideoStatusPolling = () => {
         }, 2500);
 
         return () => clearInterval(interval);
-    }, [targetVideoId, isDone, updateStatus, setReport]);
+    }, [targetVideoId, isDone, updateStatus, setReport, setProgress]);
 };
