@@ -8,7 +8,7 @@ const STEP_CONTENT: Record<number, {
     1: {
         title: "오늘의 상호작용 진단",
         description: "{parentName}님과 아이의 상호작용 균형을\n한 눈에 확인해 보세요",
-        more: "{parentName}님과 아이의 오늘 대화는 ‘{stageName}’ 단계에 가까웠어요",
+        more: "오늘 대화는 ‘{stageName}’ 단계에 가까웠어요",
     },
     2: {
         title: "AI가 포착한 핵심 순간",

@@ -279,4 +279,5 @@ const ReasonText = styled.p`
     font-size: 1.3rem;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
     line-height: 1.4;
+    white-space: pre-line;
 `;
