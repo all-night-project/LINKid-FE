@@ -32,6 +32,7 @@ export interface NeedsImprovementMoment {
 export interface PatternExample {
     pattern_name: string;
     occurrences: number;
+    accured_at: string;
     dialogue: DialogueLine[];
     problem_explanation: string;
     suggested_response: string;

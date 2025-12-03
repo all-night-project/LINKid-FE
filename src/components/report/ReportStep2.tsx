@@ -114,7 +114,7 @@ const ReportStep2 = ({ keyMoments }: KeyMomentsProps) => {
                                 “{pattern_examples[0].pattern_name}” ({pattern_examples[0].occurrences}회)
                             </PatternTitle>
 
-                            <SmallText>발생 시점: {pattern_examples[0].occurrences}</SmallText>
+                            <SmallText>발생 시점: {pattern_examples[0].occurred_at}</SmallText>
 
                             <ChatBubble>
                                 {pattern_examples[0].dialogue.map((line, idx) => (
