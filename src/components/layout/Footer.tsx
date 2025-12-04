@@ -14,22 +14,22 @@ const Footer = () => {
         <Wrapper>
             <NavItem to={ROUTES.DASHBOARD} active={currentPath === ROUTES.DASHBOARD}>
                 <HomeIcon />
-                <Label>홈</Label>
+                <span>홈</span>
             </NavItem>
 
             <NavItem to={ROUTES.REPORT_LIST} active={currentPath.startsWith("/report")}>
                 <AnalysisIcon />
-                <Label>분석</Label>
+                <span>분석</span>
             </NavItem>
 
             <NavItem to={ROUTES.CHALLENGE_LIST} active={currentPath.startsWith("/challenge")}>
                 <TrophyIcon />
-                <Label>챌린지</Label>
+                <span>챌린지</span>
             </NavItem>
 
             <NavItem to={ROUTES.MYPAGE} active={currentPath === ROUTES.MYPAGE}>
                 <MyIcon />
-                <Label>마이</Label>
+                <span>마이</span>
             </NavItem>
         </Wrapper>
     );
@@ -58,13 +58,15 @@ const NavItem = styled(Link) <NavItemProps>`
     gap: 4px;
     text-decoration: none;
 
-    svg {
+    svg path {
         fill: ${({ theme, active }) =>
         active ? theme.colors.primary[500] : theme.colors.textPrimary};
     }
-`;
 
-const Label = styled.span`
-    font-size: 1.3rem;
-    font-weight: ${({ theme }) => theme.typography.weights.medium};
+    span {
+        color: ${({ theme, active }) =>
+        active ? theme.colors.primary[500] : theme.colors.textPrimary};
+        font-size: 1.3rem;
+        font-weight: ${({ theme }) => theme.typography.weights.medium};
+    }
 `;
