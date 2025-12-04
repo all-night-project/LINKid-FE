@@ -73,7 +73,7 @@ const ReportStep5 = ({ growthReport, showChallengeSection = true }: ReportStep5P
                         );
                     })}
                 </IndicatorList>
-                <AiComment>{analysis_session.comment}</AiComment>
+                {/* <AiComment>{analysis_session.comment}</AiComment> */}
                 {/* 챌린지 힌팅 */}
                 {showChallengeSection && (
                     <ChallengeHintBox>
