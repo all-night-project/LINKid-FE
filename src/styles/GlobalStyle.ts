@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: ${theme.typography.fontFamily};
     color: ${theme.colors.textPrimary};
-    background-color: ${theme.colors.background};
+    background-color: #DADADA;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
