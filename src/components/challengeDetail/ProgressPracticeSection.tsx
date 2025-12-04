@@ -126,6 +126,7 @@ const Row = styled.div<{ completed: boolean }>`
         height: 25px;
         font-size: 1.3rem;
         box-shadow: 0px 4px 4px rgba(222, 216, 208, 0.2);
+        flex-shrink: 0;
     }
 `;
 
@@ -148,7 +149,7 @@ const TextBox = styled.p`
 const Label = styled.p`
     font-size: 1.5rem;
     font-weight: ${({ theme }) => theme.typography.weights.medium};
-    max-width: 230px;   
+    /* max-width: 230px;    */
     word-break: keep-all;
     white-space: normal;
     line-height: 1.3;
@@ -189,8 +190,7 @@ const ReviewText = styled.p`
 const Icon = styled.div`
     width: 18px;
     height: 18px;
-    min-width: 18px;
-    min-height: 18px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
