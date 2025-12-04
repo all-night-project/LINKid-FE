@@ -49,6 +49,7 @@ const StyledButton = styled.button<{ $variant: string }>`
     font-size: ${({ theme }) => theme.typography.sizes.md};
 
     border-radius: ${({ theme }) => theme.radius.md};
+    cursor: pointer;
 
     ${({ $variant, theme }) =>
         $variant === "primary"
