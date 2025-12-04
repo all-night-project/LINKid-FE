@@ -39,7 +39,9 @@ const PracticeListSection = ({ practices, onRefresh }: PracticeListProps) => {
                         </LeftBox>
 
                         {p.completed ? (
-                            <CheckIcon width={28} height={28} />
+                            <CheckIconWrapper>
+                                <CheckIcon width={28} height={28} />
+                            </CheckIconWrapper>
                         ) : (
                             <Button
                                 variant="primary"
@@ -117,10 +119,6 @@ const Row = styled.div<{ completed: boolean }>`
     justify-content: space-between;
     align-items: center;
 
-    > svg path {
-        fill: ${({ theme }) => theme.colors.primary[600]};
-    }
-
     > Button {
         width: 58px;
         height: 25px;
@@ -129,6 +127,16 @@ const Row = styled.div<{ completed: boolean }>`
         flex-shrink: 0;
     }
 `;
+
+const CheckIconWrapper = styled.div`
+    width: 23px;
+    height: 23px;
+    flex-shrink: 0;
+
+    > svg path {
+        fill: ${({ theme }) => theme.colors.primary[600]};
+    }
+`
 
 const LeftBox = styled.div`
     display: flex;
