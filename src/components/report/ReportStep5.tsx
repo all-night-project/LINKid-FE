@@ -77,7 +77,7 @@ const ReportStep5 = ({ growthReport, showChallengeSection = true }: ReportStep5P
                 {/* 챌린지 힌팅 */}
                 {showChallengeSection && (
                     <ChallengeHintBox>
-                        <ChallengeHintTitle>이번 상호작용 속 챌린지 평가</ChallengeHintTitle>
+                        <ChallengeHintTitle>이번 상호작용에서 감지된 챌린지 신호</ChallengeHintTitle>
                         <ChallengeHintSub>AI가 감지한 작은 실천들을 확인해보세요.</ChallengeHintSub>
 
                         {challenge_evaluations && challenge_evaluations.length > 0 ? (
