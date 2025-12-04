@@ -199,12 +199,14 @@ const EmptyStateBox = styled.div`
     padding: 30px 20px;
     margin: 8px 0;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     
     p {
         font-size: 1.4rem;
         font-weight: ${({ theme }) => theme.typography.weights.medium};
         line-height: 1.4;
-        margin-bottom: 5px;
     }
 
     .sub {
