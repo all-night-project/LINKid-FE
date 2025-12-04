@@ -57,7 +57,7 @@ const ReportStep5 = ({ growthReport, showChallengeSection = true }: ReportStep5P
                                     ? `↑ +${diff}%p`               // 양수
                                     : diff === 0
                                         ? `- 0%p`                      // 0일 때
-                                        : `↓ ${Math.abs(diff)}%p`;     // 음수일 때
+                                        : `↓ - ${Math.abs(diff)}%p`;     // 음수일 때
 
                         return (
                             <IndicatorCard key={index} variant={variant}>
